@@ -21,7 +21,7 @@ class TaskFactory extends Factory
             'description' => fake()->paragraph(),
             'completed_at' => null,
             'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'user_id' => fake()->numberBetween(1, 10),
+            'author_id' => fake()->numberBetween(1, 10),
         ];
     }
 }
