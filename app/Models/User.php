@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ownerOf()
+    {
+        return $this->hasMany(Task::class, 'author_id');
+    }
+
+    public function contributorOn()
+    {
+        return $this->hasMany(Contributor::class, 'user_id');
+    }
 }
