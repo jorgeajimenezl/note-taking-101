@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
 
         // Give each task between 1 and 4 tags
         foreach (Task::all() as $task) {
-            $tags = Tag::inRandomOrder()->take(random_int(1,4))->get();
+            $tags = Tag::inRandomOrder()->take(random_int(1, 4))->get();
             $task->tags()->attach($tags);
         }
 
         // Create contributors
         foreach (Task::all() as $task) {
-            $contributors = User::inRandomOrder()->take(random_int(1,3))->get();
+            $contributors = User::inRandomOrder()->take(random_int(1, 3))->get();
             $task->contributors()->attach($contributors);
         }
     }
