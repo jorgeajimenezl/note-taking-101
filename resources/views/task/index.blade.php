@@ -30,17 +30,13 @@
 
     <style>
         .task-item {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .task-item.animate {
-            opacity: 0;
-            transform: translateY(-20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
     </style>
 
     <script>
         document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
+            checkbox.addEventListener('change', function () {
                 const taskId = this.dataset.id;
                 const isCompleted = this.checked;
 
@@ -59,23 +55,50 @@
                         this.checked = !isCompleted;
                         alert('Failed to update task status');
                     } else {
-                        // Update the DOM to reflect the new task status
                         const taskItem = document.querySelector(`#task-item-${taskId}`);
                         const taskElement = document.querySelector(`#task-title-${taskId}`);
+                        
+                        // Get current position
+                        const currentPosition = taskItem.getBoundingClientRect();
 
-                        taskItem.classList.add('animate');
+                        // Determine the new list
+                        const targetList = isCompleted 
+                            ? document.querySelector('#completed-tasks') 
+                            : document.querySelector('#uncompleted-tasks');
+                        
+                        // Append the task to the target list
+                        targetList.appendChild(taskItem);
 
-                        setTimeout(() => {
-                            // Update the DOM after animation
-                            taskItem.classList.remove('animate');
-                            if (isCompleted) {
-                                taskElement.classList.add('line-through');
-                                document.querySelector('#completed-tasks').appendChild(taskItem);
-                            } else {
-                                taskElement.classList.remove('line-through');
-                                document.querySelector('#uncompleted-tasks').appendChild(taskItem);
-                            }
-                        }, 300); // Match transition duration
+                        // Get new position
+                        const newPosition = taskItem.getBoundingClientRect();
+
+                        // Calculate position difference
+                        const deltaX = currentPosition.left - newPosition.left;
+                        const deltaY = currentPosition.top - newPosition.top;
+
+                        // Temporarily apply position shift
+                        taskItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                        taskItem.style.transition = 'none';
+
+                        // Force reflow to ensure the browser registers the style change
+                        taskItem.getBoundingClientRect();
+
+                        // Animate to new position
+                        taskItem.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                        taskItem.style.transform = 'translate(0, 0)';
+                        
+                        // Apply line-through style if completed
+                        if (isCompleted) {
+                            taskElement.classList.add('line-through');
+                        } else {
+                            taskElement.classList.remove('line-through');
+                        }
+
+                        // Clean up after the animation
+                        taskItem.addEventListener('transitionend', () => {
+                            taskItem.style.transform = '';
+                            taskItem.style.transition = '';
+                        }, { once: true });
                     }
                 });
             });
