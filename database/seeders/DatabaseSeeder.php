@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-        Task::factory(50)->create();
+        Task::factory(10)->create();
         Tag::factory(10)->create();
 
         // Give each task between 1 and 4 tags

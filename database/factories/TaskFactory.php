@@ -17,7 +17,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'completed_at' => null,
             'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
