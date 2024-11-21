@@ -10,6 +10,12 @@ class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'completed_at',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
@@ -23,5 +29,10 @@ class Task extends Model
     public function contributors()
     {
         return $this->belongsToMany(User::class, 'contributors');
+    }
+    
+    public function isComplete()
+    {
+        return $this->completed_at !== null;
     }
 }
