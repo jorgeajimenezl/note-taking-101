@@ -10,14 +10,14 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all()->sortBy('created_at')->partition(function ($task) {
-            return !$task->isComplete();
+            return ! $task->isComplete();
         });
         $uncompletedTasks = $tasks[0];
         $completedTasks = $tasks[1];
 
         return view('task.index')->with([
             'uncompletedTasks' => $uncompletedTasks,
-            'completedTasks' => $completedTasks
+            'completedTasks' => $completedTasks,
         ]);
     }
 
@@ -29,6 +29,7 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Task::findOrFail($id);
+
         return view('task.show')->with('task', $task);
     }
 
@@ -37,6 +38,7 @@ class TaskController extends Controller
         $task->update([
             'completed_at' => $request->completed ? now() : null,
         ]);
+
         return response()->noContent();
     }
 }
