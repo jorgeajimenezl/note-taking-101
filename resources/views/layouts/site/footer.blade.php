@@ -1,11 +1,11 @@
 <footer class="bg-stone-200">
-    <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+    <div class="mx-auto max-w-7xl overflow-hidden px-6 py-10 sm:py-12 lg:px-8">
         <nav class="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6" aria-label="Footer">
             <a href="#" class="text-gray-600 hover:text-gray-900">About</a>
             <a href="#" class="text-gray-600 hover:text-gray-900">Blog</a>
             <a href="#" class="text-gray-600 hover:text-gray-900">Contact us</a>
         </nav>
-        <div class="mt-16 flex justify-center gap-x-10">
+        <div class="mt-8 flex justify-center gap-x-10">
             <a href="#" class="text-gray-600 hover:text-gray-800">
                 <span class="sr-only">Facebook</span>
                 <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
