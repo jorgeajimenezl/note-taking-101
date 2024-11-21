@@ -85,7 +85,7 @@
                         return;
                     }
 
-                    const taskTitle = taskItem.querySelector('a');
+                    const taskTitle = taskItem.querySelector(`#task-title-${taskId}`);
                     animateTaskMovement(taskItem, targetList, () => {
                         if (isCompleted) {
                             taskTitle.classList.add('line-through');
