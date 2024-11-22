@@ -10,7 +10,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all()->sortBy('created_at')->partition(function ($task) {
-            return ! $task->isComplete();
+            return ! $task->isCompleted();
         });
         $uncompletedTasks = $tasks[0];
         $completedTasks = $tasks[1];
