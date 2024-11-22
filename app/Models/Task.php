@@ -31,7 +31,7 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'contributors');
     }
 
-    public function isComplete()
+    public function isCompleted(): bool
     {
         return $this->completed_at !== null;
     }
