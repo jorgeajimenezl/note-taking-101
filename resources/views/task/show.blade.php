@@ -14,9 +14,9 @@
                 <form id="save-task-form" action="{{ route('task.update', $task) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="title" id="hidden-title"/>
-                    <input type="hidden" name="description" id="hidden-description"/>
-                    <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit">Save Changes</button>
+                    <input type="hidden" name="title" id="hidden-title" value="{{$task->title}}"/>
+                    <input type="hidden" name="description" id="hidden-description" value="{{$task->description}}"/>
+                    <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit" style="display: none;">Save Changes</button>
                 </form>
                 <form id="delete-task-form" action="{{ route('task.destroy', $task) }}" method="DELETE">
                     @csrf
@@ -29,7 +29,7 @@
         </div>
         <main>
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <x-form-text-area id="task-content" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
+                <x-form-text-area id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
             </div>
         </main>
         </form>
@@ -48,6 +48,19 @@
 </style>
 
 <script>
+    function checkForChanges() {
+        const taskTitle = document.getElementById('task-title').value;
+        const taskDescription = document.getElementById('task-description').value;
+        const hiddenTitle = document.getElementById('hidden-title').value;
+        const hiddenDescription = document.getElementById('hidden-description').value;
+
+        if (taskTitle !== hiddenTitle || taskDescription !== hiddenDescription) {
+            document.getElementById('save-button').style.display = 'block';
+        } else {
+            document.getElementById('save-button').style.display = 'none';
+        }
+    }
+
     document.getElementById('task-title').addEventListener('dblclick', function() {
         this.removeAttribute('readonly');
         this.classList.add('editable');
@@ -57,21 +70,29 @@
     document.getElementById('task-title').addEventListener('blur', function() {
         this.setAttribute('readonly', true);
         this.classList.remove('editable');
+        checkForChanges();
     });
 
-    document.getElementById('task-content').addEventListener('dblclick', function() {
+    document.getElementById('task-title').addEventListener('input', checkForChanges);
+    document.getElementById('task-description').addEventListener('input', checkForChanges);
+
+    document.getElementById('task-description').addEventListener('dblclick', function() {
         this.removeAttribute('readonly');
         this.classList.add('editable');
         this.focus();
     });
 
-    document.getElementById('task-content').addEventListener('blur', function() {
+    document.getElementById('task-description').addEventListener('blur', function() {
         this.setAttribute('readonly', true);
         this.classList.remove('editable');
+        checkForChanges();
     });
 
     document.getElementById('save-task-form').addEventListener('submit', function() {
         document.getElementById('hidden-title').value = document.getElementById('task-title').value;
-        document.getElementById('hidden-description').value = document.getElementById('task-content').value;
+        document.getElementById('hidden-description').value = document.getElementById('task-description').value;
     });
+
+    // Initial check on page load
+    checkForChanges();
 </script>
