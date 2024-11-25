@@ -43,7 +43,13 @@
 
             function animateTaskMovement(taskItem, targetList, callback) {
                 const initialPosition = taskItem.getBoundingClientRect();
-                targetList.appendChild(taskItem);
+
+                if (targetList.id === 'completed-tasks') {
+                    targetList.insertBefore(taskItem, targetList.firstChild);
+                } else {
+                    targetList.appendChild(taskItem);
+                }
+
                 const finalPosition = taskItem.getBoundingClientRect();
 
                 // Calculate the delta and set CSS variables
