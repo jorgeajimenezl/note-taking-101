@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('contributors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->enum('role', ['editor', 'viewer']);
             $table->timestamps();
         });

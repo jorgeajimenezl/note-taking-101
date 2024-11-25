@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->timestamp('completed_at')->nullable();
-            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('author_id')->constrained('users')->cascadeOnDelete();
             $table->timestamp('due_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
