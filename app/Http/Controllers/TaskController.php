@@ -64,4 +64,12 @@ class TaskController extends Controller
             return redirect()->route('task.index')->withErrors('Task not found');
         }
     }
+
+    public function destroy($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return redirect()->route('task.index');
+    }
 }
