@@ -21,6 +21,63 @@
     </div>
 
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #e9ecef;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        li.completed {
+            background-color: #d4edda;
+            text-decoration: line-through;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .animate-move {
+            animation: moveTask var(--animation-duration) ease;
+        }
+
         @keyframes moveTask {
             from {
                 transform: var(--initial-transform);
@@ -28,9 +85,6 @@
             to {
                 transform: translate(0, 0);
             }
-        }
-        .animate-move {
-            animation: moveTask var(--animation-duration) ease;
         }
     </style>
 
