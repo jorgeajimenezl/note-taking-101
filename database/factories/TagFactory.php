@@ -18,6 +18,7 @@ class TagFactory extends Factory
     {
         return [
             'name' => fake()->word(),
+            'user_id' => random_int(1, 10),
         ];
     }
 }

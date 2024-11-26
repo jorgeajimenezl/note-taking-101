@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
 
         Schema::create('tag_task', function (Blueprint $table) {

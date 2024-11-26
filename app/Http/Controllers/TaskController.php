@@ -62,6 +62,7 @@ class TaskController extends Controller
 
             $task->tags()->sync($request->tags);
             session()->flash('success', $task->title);
+
             return redirect()->route('task.show', $task->id);
         } else {
             return redirect()->route('task.index')->withErrors('Task not found');
