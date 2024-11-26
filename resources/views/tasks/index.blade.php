@@ -1,5 +1,5 @@
 <x-app-layout title="Tasks">
-    <div class="container mx-auto flex justify-center">
+    <div class="container mx-auto flex justify-center bg-white rounded-lg shadow-lg my-5 max-w-screen-md p-5">
         <ul class="w-3/4">
             @if($uncompletedTasks->isEmpty() && $completedTasks->isEmpty())
                 <div class="text-gray-500 text-center py-10 flex flex-col items-center">
@@ -15,7 +15,7 @@
                 </div>
                 <ul id="uncompleted-tasks">
                     @foreach ($uncompletedTasks as $task)
-                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
+                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
                         <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}">
                         <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
                     </li>
@@ -23,7 +23,7 @@
                 </ul>
                 <ul id="completed-tasks">
                     @foreach ($completedTasks as $task)
-                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
+                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
                         <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}" checked>
                         <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
                     </li>
@@ -33,25 +33,7 @@
         </ul>
     </div>
 
-    <style>
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        
-        li {
-            background-color: #e9ecef;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-        }
-        
+    <style>        
         .animate-move {
             animation: moveTask var(--animation-duration) ease;
         }
