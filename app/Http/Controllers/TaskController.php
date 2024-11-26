@@ -16,7 +16,7 @@ class TaskController extends Controller
         $uncompletedTasks = $tasks[0];
         $completedTasks = $tasks[1];
 
-        return view('task.index')->with([
+        return view('tasks.index')->with([
             'uncompletedTasks' => $uncompletedTasks,
             'completedTasks' => $completedTasks,
         ]);
@@ -24,7 +24,29 @@ class TaskController extends Controller
 
     public function create()
     {
-        return view('task.create');
+        $allTags = Tag::where('user_id', auth()->id())->get();
+
+        return view('tasks.create', compact('allTags'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'min:5', 'max:255'],
+            'description' => ['required', 'string'],
+            'tags' => ['array'],
+        ]);
+        dump($request->all());
+
+        $task = Task::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'author_id' => auth()->id(),
+        ]);
+
+        $task->tags()->sync($request->tags);
+
+        return redirect()->route('tasks.index');
     }
 
     public function show(int $id)
@@ -34,7 +56,7 @@ class TaskController extends Controller
 
         $task->authorized();
 
-        return view('task.show', compact('task', 'allTags'));
+        return view('tasks.show', compact('task', 'allTags'));
     }
 
     public function toggleComplete(Request $request, Task $task)
@@ -65,9 +87,9 @@ class TaskController extends Controller
             $task->tags()->sync($request->tags);
             session()->flash('success', $task->title);
 
-            return redirect()->route('task.show', $task->id);
+            return redirect()->route('tasks.show', $task->id);
         } else {
-            return redirect()->route('task.index')->withErrors('Task not found');
+            return redirect()->route('tasks.index')->withErrors('Task not found');
         }
     }
 
@@ -76,6 +98,6 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return redirect()->route('task.index');
+        return redirect()->route('tasks.index');
     }
 }

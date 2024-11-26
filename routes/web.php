@@ -20,11 +20,8 @@ Route::middleware('auth')->group(function () {
 
 // Tasks
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
-    Route::get('/task/{id}', [TaskController::class, 'show'])->name('task.show');
-    Route::put('/task/{id}', [TaskController::class, 'update'])->name('task.update');
-    Route::delete('/task/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
-    Route::post('/task/{task}/toggle-complete', [TaskController::class, 'toggleComplete']);
+    Route::resource('/tasks', TaskController::class)->except(['edit']);
+    Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete']);
 });
 
 require __DIR__.'/auth.php';

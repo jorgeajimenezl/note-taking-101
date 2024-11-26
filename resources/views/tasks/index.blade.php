@@ -1,22 +1,32 @@
 <x-app-layout title="Tasks">
     <div class="container mx-auto flex justify-center">
         <ul class="w-3/4">
-            <ul id="uncompleted-tasks">
-                @foreach ($uncompletedTasks as $task)
-                <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
-                    <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}">
-                    <a href="{{ route('task.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
-                </li>
-                @endforeach
-            </ul>
-            <ul id="completed-tasks">
-                @foreach ($completedTasks as $task)
-                <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
-                    <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}" checked>
-                    <a href="{{ route('task.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
-                </li>
-                @endforeach
-            </ul>
+            @if($uncompletedTasks->isEmpty() && $completedTasks->isEmpty())
+                <div class="text-gray-500 text-center py-10 flex flex-col items-center">
+                    <svg class="w-16 h-16 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 4H7m4-8h.01M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+                    </svg>
+                    <p class="text-xl">No tasks available</p>
+                    <a href="{{ route('tasks.create') }}" class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Create</a>
+                </div>
+            @else
+                <ul id="uncompleted-tasks">
+                    @foreach ($uncompletedTasks as $task)
+                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
+                        <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}">
+                        <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
+                    </li>
+                    @endforeach
+                </ul>
+                <ul id="completed-tasks">
+                    @foreach ($completedTasks as $task)
+                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
+                        <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}" checked>
+                        <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
+                    </li>
+                    @endforeach
+                </ul>
+            @endif
         </ul>
     </div>
 

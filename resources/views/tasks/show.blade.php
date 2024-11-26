@@ -6,7 +6,7 @@
     @endif
 
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <form id="task-form" action="{{ route('task.update', $task) }}" method="POST">
+        <form id="task-form" action="{{ route('tasks.update', $task) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="bg-white shadow">
@@ -30,9 +30,6 @@
         </form>
     </div>
 </x-app-layout>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 <style>
     .editable {
         border: 1px solid #ccc;
@@ -88,10 +85,10 @@
         const form = document.getElementById('task-form');
 
         if (confirm('Are you sure you want to delete this task?')) {
-            form.action = '{{ route('task.destroy', $task) }}';
+            form.action = '{{ route('tasks.destroy', $task) }}';
             form.method = 'DELETE';
             form.submit();
-            form.action = '{{ route('task.update', $task) }}';
+            form.action = '{{ route('tasks.update', $task) }}';
             form.method = 'PUT';
         }
     });
