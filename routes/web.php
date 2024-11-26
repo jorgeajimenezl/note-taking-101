@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 // Tasks
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/tasks', TaskController::class)->except(['edit']);
-    Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete']);
+    Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
 });
 
 require __DIR__.'/auth.php';

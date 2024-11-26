@@ -8,12 +8,14 @@
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <form id="task-form" action="{{ route('tasks.store') }}" method="POST">
             @csrf
+            @method("POST")
             <div class="bg-white shadow">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
-                        <input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" placeholder="Title" name="title">
+                        <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" placeholder="Title" name="title" required/>
                         <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit">Create</button>
                     </div>
+                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
                 <main>
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

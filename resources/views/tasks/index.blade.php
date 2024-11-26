@@ -145,7 +145,7 @@
                 const taskItem = document.querySelector(`#task-item-${taskId}`);
                 const targetList = isCompleted ? completedTasks : uncompletedTasks;
 
-                fetch(`/task/${taskId}/toggle-complete`, {
+                fetch("{{ route("tasks.toggle-complete", $task) }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
