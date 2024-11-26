@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -29,8 +30,9 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Task::findOrFail($id);
+        $allTags = Tag::all();
 
-        return view('task.show')->with('task', $task);
+        return view('task.show', compact('task', 'allTags'));
     }
 
     public function toggleComplete(Request $request, Task $task)

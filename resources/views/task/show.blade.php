@@ -14,9 +14,9 @@
                 <form id="save-task-form" action="{{ route('task.update', $task) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="title" id="hidden-title" value="{{$task->title}}"/>
-                    <input type="hidden" name="description" id="hidden-description" value="{{$task->description}}"/>
-                    <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit" style="display: none;">Save Changes</button>
+                    <input type="hidden" name="title" id="hidden-title" value="{{$task->title}}" />
+                    <input type="hidden" name="description" id="hidden-description" value="{{$task->description}}" />
+                    <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out hidden" type="submit">Save Changes</button>
                 </form>
                 <form id="delete-task-form" action="{{ route('task.destroy', $task) }}" method="DELETE">
                     @csrf
@@ -28,7 +28,9 @@
             </div>
         </div>
         <main>
-            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">             
+                <x-tag-selector name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" formId="save-task-form" />
+                <div class="mt-2" />
                 <x-form-text-area id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
             </div>
         </main>
@@ -95,4 +97,20 @@
 
     // Initial check on page load
     checkForChanges();
+
+    document.getElementById('save-button').addEventListener('click', function(event) {
+        event.preventDefault();
+        var taskForm = document.getElementById('task-form');
+        var deleteForm = document.getElementById('delete-task-form');
+
+        // Clone inputs from taskForm to deleteForm
+        var inputs = taskForm.querySelectorAll('input');
+        inputs.forEach(function(input) {
+            var clonedInput = input.cloneNode(true);
+            deleteForm.appendChild(clonedInput);
+        });
+
+        // Submit the deleteForm
+        deleteForm.submit();
+    });
 </script>
