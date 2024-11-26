@@ -49,6 +49,7 @@ class TaskController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'min:5', 'max:255'],
             'description' => ['required', 'string'],
+            'tags' => ['array'],
         ]);
 
         $task = Task::find($id);
@@ -59,8 +60,8 @@ class TaskController extends Controller
                 'description' => $request->description,
             ]);
 
+            $task->tags()->sync($request->tags);
             session()->flash('success', $task->title);
-
             return redirect()->route('task.show', $task->id);
         } else {
             return redirect()->route('task.index')->withErrors('Task not found');
