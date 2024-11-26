@@ -1,22 +1,8 @@
 @include('components.form._form-label')
 <div class="mt-2"/>
-<input type="hidden" name="{{ $name }}" id="tagsInput">
-
-<div class="flex flex-wrap gap-2" id="tags-container">
-    @foreach($tags as $tag)
-        <div class="flex items-center bg-blue-500 text-white rounded-full px-3 py-1">
-            {{ $tag->name }}
-            <button type="button" class="ml-2 text-sm text-white hover:text-gray-200" onclick="removeTag({{ $tag->id }})">
-                &times;
-            </button>
-        </div>
-    @endforeach
-
-    <button type="button" class="flex items-center bg-gray-200 text-gray-700 rounded-full px-3 py-1 hover:bg-gray-300" 
-            onclick="toggleTagDialog(true)">
-        +
-    </button>
+<div class="flex flex-wrap gap-2" id="tags-container">    
 </div>
+@include('components.form._form-error-handling')
 
 <div id="tagDialog" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 w-1/2">
@@ -36,15 +22,12 @@
 <script>
     let tags = {!! json_encode($tags) !!};
     let allTags = {!! json_encode($allTags) !!};
+    renderTags();
 
     function toggleTagDialog(show) {
         const dialog = document.getElementById('tagDialog');
         dialog.classList.toggle('hidden', !show);
     }
-
-    document.getElementById("{{ $formId }}").addEventListener('submit', () => {
-        document.getElementById('tagsInput').value = JSON.stringify(tags);
-    });
 
     function filterTags() {
         const searchInput = document.getElementById('searchTag').value.toLowerCase();
@@ -78,6 +61,7 @@
             const chip = `
                 <div class="flex items-center bg-blue-500 text-white rounded-full px-3 py-1">
                     ${tag.name}
+                    <input type="hidden" data-mark="input-field" name="{{ $name }}[]" id="{{ $id }}" value="${tag.id}">
                     <button type="button" class="ml-2 text-sm text-white hover:text-gray-200" onclick="removeTag(${tag.id})">
                         &times;
                     </button>
