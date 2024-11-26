@@ -8,7 +8,7 @@
     <div class="bg-white rounded-lg p-6 w-1/2">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold">Add a Tag</h2>
-            <button onclick="toggleTagDialog(false)" class="text-gray-500 hover:text-gray-700">&times;</button>
+            <button onclick="toggleTagDialog(false)" class="text-gray-500 hover:text-gray-700" type="button">&times;</button>
         </div>
         <input id="searchTag" type="text" placeholder="Search tags..." 
                class="border rounded w-full px-3 py-2 focus:outline-none focus:ring focus:border-blue-300" 
