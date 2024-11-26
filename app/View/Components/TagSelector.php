@@ -13,7 +13,6 @@ class TagSelector extends Component
         public string $label,
         public array $tags,
         public array $allTags,
-        public ?string $formId,
         public ?string $id = 'tagsInput',
     ) {}
 
