@@ -78,7 +78,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For any questions or inquiries, please contact the project maintainer @jorgeajimenezl at [jorgeajimenezl17@gmail.com](mailto:jorgeajimenezl17@gmail.com).
+For any questions or inquiries, please contact the project maintainer at [jorgeajimenezl17@gmail.com](mailto:jorgeajimenezl17@gmail.com).
 
 ---
 
