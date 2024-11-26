@@ -35,4 +35,13 @@ class Task extends Model
     {
         return $this->completed_at !== null;
     }
+
+    public function authorized(): void
+    {
+        $user = auth()->user();
+        if ($user->id !== $this->author_id &&
+            ! $this->contributors->contains($user)) {
+            abort(403);
+        }
+    }
 }
