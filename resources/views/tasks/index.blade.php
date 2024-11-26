@@ -34,13 +34,6 @@
     </div>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -49,17 +42,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
+        
         li {
             background-color: #e9ecef;
             margin: 10px 0;
@@ -67,24 +50,6 @@
             border-radius: 4px;
             display: flex;
             align-items: center;
-        }
-
-        li.completed {
-            background-color: #d4edda;
-            text-decoration: line-through;
-        }
-
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
         }
         
         .animate-move {
@@ -148,7 +113,7 @@
                 const taskItem = document.querySelector(`#task-item-${taskId}`);
                 const targetList = isCompleted ? completedTasks : uncompletedTasks;
 
-                fetch("{{ route("tasks.toggle-complete", $task) }}", {
+                fetch(`/tasks/${taskId}/toggle-complete`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
