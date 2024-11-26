@@ -1,4 +1,4 @@
-<x-site-layout title="Tasks">
+<x-app-layout title="Tasks">
     <div class="container mx-auto flex justify-center">
         <ul class="w-3/4">
             <ul id="uncompleted-tasks">
@@ -167,4 +167,4 @@
             });
         });
     </script>
-</x-site-layout>
+</x-app-layout>
