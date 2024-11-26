@@ -10,7 +10,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all()->sortBy('created_at')->partition(function ($task) {
+        $tasks = Task::where('author_id', auth()->id())->get()->sortBy('created_at')->partition(function ($task) {
             return ! $task->isCompleted();
         });
         $uncompletedTasks = $tasks[0];
@@ -27,10 +27,12 @@ class TaskController extends Controller
         return view('task.create');
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $task = Task::findOrFail($id);
-        $allTags = Tag::all();
+        $allTags = Tag::where('user_id', auth()->id())->get();
+
+        $task->authorized();
 
         return view('task.show', compact('task', 'allTags'));
     }
