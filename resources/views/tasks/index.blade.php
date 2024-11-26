@@ -10,6 +10,9 @@
                     <a href="{{ route('tasks.create') }}" class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Create</a>
                 </div>
             @else
+                <div class="flex justify-end mb-4">
+                    <a href="{{ route('tasks.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Create</a>
+                </div>
                 <ul id="uncompleted-tasks">
                     @foreach ($uncompletedTasks as $task)
                     <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2">
