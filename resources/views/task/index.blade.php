@@ -110,6 +110,11 @@
                 const deltaX = initialPosition.left - finalPosition.left;
                 const deltaY = initialPosition.top - finalPosition.top;
 
+                if (deltaX === 0 && deltaY === 0) {
+                    callback?.();
+                    return;
+                }
+
                 taskItem.style.setProperty('--initial-transform', `translate(${deltaX}px, ${deltaY}px)`);
                 taskItem.style.setProperty('--animation-duration', `${animationDuration}ms`);
 
