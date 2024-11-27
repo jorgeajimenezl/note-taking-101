@@ -12,4 +12,30 @@ class TagController extends Controller
 
         return view('tags.index', compact('tags'));
     }
+
+    public function create()
+    {
+        return view('tags.create');
+    }
+
+    public function store()
+    {
+        $data = request()->validate([
+            'name' => ['required', 'string', 'max:255', 'min:3'],
+        ]);
+
+        Tag::create([
+            'name' => $data['name'],
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('tags.index');
+    }
+
+    public function destroy(Tag $tag)
+    {
+        $tag->delete();
+
+        return redirect()->route('tags.index');
+    }
 }
