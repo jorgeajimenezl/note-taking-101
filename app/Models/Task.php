@@ -37,12 +37,14 @@ class Task extends Model
         return $this->completed_at !== null;
     }
 
-    public function authorized(): void
+    public function getUserRole(User $user): string
     {
-        $user = auth()->user();
-        if ($user->id !== $this->author_id &&
-            ! $this->contributors->contains($user)) {
-            abort(403);
+        if ($this->author_id === $user->id) {
+            $role = 'owner';
+        } else {
+            $role = Contributor::firstWhere(['task_id' => $this->id, 'user_id' => $user->id])?->role;
         }
+
+        return $role;
     }
 }
