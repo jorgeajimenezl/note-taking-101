@@ -12,17 +12,18 @@
             <div class="bg-white shadow rounded-lg">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
-                        <input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly>
-                        <button id="save-button" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit">Save Changes</button>
-                        <button id="delete-button" class="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out" type="submit">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </button>
+                        <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />
+                        <x-primary-button id="save-button" class="ml-4">Save Changes</x-primary-button>
+                        <x-danger-button id="delete-button" class="ml-2">
+                            <i class="fas fa-trash-alt"></i> 
+                            <span class="ml-1">Delete</span>
+                        </x-danger-button>
                     </div>
                 </div>
                 <main>
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" />
-                        <div class="mt-2" />
+                        <div class="mt-5" />
                         <x-form-text-area id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
                     </div>
                 </main>
@@ -33,6 +34,9 @@
 <style>
     .editable {
         border: 1px solid #ccc;
+    }
+    #task-title {
+        box-shadow: none;
     }
 </style>
 <script>

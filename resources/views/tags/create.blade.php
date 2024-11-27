@@ -10,7 +10,7 @@
                         <p>Enter the name of the new tag below.</p>
                     </div>
                     <div class="mt-5">
-                        <x-input-label for="name" :value="__('Tag Name')" />
+                        <x-input-label for="name" :value="__('Name')" />
                         <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>

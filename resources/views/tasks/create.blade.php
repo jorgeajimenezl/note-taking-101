@@ -1,4 +1,4 @@
-<x-app-layout title="New Task">
+<x-app-layout>
     @if(session()->has('success'))
     <div class="bg-green-100 text-green-500 p-2">
         {!! session()->get('success') !!}
@@ -9,18 +9,18 @@
         <form id="task-form" action="{{ route('tasks.store') }}" method="POST">
             @csrf
             @method("POST")
-            <div class="bg-white shadow">
+            <div class="bg-white shadow sm:rounded-lg">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
-                        <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" placeholder="Title" name="title" required/>
-                        <button id="save-button" class="btn btn-primary ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out" type="submit">Create</button>
+                        <x-text-input id="task-title" data-mark="input-field" class="text-xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" placeholder="Title" name="title" required/>
+                        <x-primary-button id="save-button" class="ml-4" type="submit">Create</x-primary-button>
                     </div>
                     <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
                 <main>
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="[]" :allTags="$allTags->all()" />
-                        <div class="mt-2" />
+                        <div class="mt-2"></div>
                         <x-form-text-area id="task-description" label="Description" name="description" placeholder="Description" />
                     </div>
                 </main>
