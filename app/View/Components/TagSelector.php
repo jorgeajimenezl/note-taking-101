@@ -14,6 +14,7 @@ class TagSelector extends Component
         public array $tags,
         public array $allTags,
         public ?string $id = 'tagsInput',
+        public ?bool $readonly = false,
     ) {}
 
     public function render(): View|Closure|string
