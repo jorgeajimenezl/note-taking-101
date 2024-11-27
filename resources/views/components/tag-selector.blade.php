@@ -1,5 +1,5 @@
 @include('components.form._form-label')
-<div class="mt-2"/>
+<div class="my-1"></div>
 <div class="flex flex-wrap gap-2" id="tags-container">    
 </div>
 @include('components.form._form-error-handling')
@@ -62,19 +62,23 @@
                 <div class="flex items-center bg-blue-500 text-white rounded-full px-3 py-1">
                     ${tag.name}
                     <input type="hidden" data-mark="input-field" name="{{ $name }}[]" id="{{ $id }}" value="${tag.id}">
+                    @if (!$readonly)
                     <button type="button" class="ml-2 text-sm text-white hover:text-gray-200" onclick="removeTag(${tag.id})">
                         &times;
                     </button>
+                    @endif
                 </div>`;
             tagsContainer.innerHTML += chip;
         });
 
+        @if (!$readonly)
         // Add the "+" button back
         tagsContainer.innerHTML += `
             <button type="button" class="flex items-center bg-gray-200 text-gray-700 rounded-full px-3 py-1 hover:bg-gray-300" 
                     onclick="toggleTagDialog(true)">
                 +
             </button>`;
+        @endif
     }
 
     function removeTag(tagId) {

@@ -24,8 +24,8 @@
                 </div>
                 <main>
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" />
-                        <div class="mt-5" />
+                        <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" :readonly="$role === 'viewer'"/>
+                        <div class="mt-5"></div>
                         <x-text-area-input id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
                     </div>
                 </main>
@@ -41,52 +41,55 @@
         box-shadow: none;
     }
 </style>
-<script>
-    let originalInputs = {};
-    document.addEventListener("DOMContentLoaded", function() {
-        var inputs = document.querySelectorAll('[data-mark="input-field"]');
-        inputs.forEach(function(input) {
-            originalInputs[input] = input.value;
-            input.addEventListener('dblclick', function() {
-                this.removeAttribute('readonly');
-                this.classList.add('editable');
-                this.focus();
-            });
-            input.addEventListener('blur', function() {
-                this.setAttribute('readonly', true);
-                this.classList.remove('editable');
-                // checkForChanges();
-            });
-            input.addEventListener('input', function() {
-                // checkForChanges();
+
+@if($role !== 'viewer')
+    <script>
+        let originalInputs = {};
+        document.addEventListener("DOMContentLoaded", function() {
+            var inputs = document.querySelectorAll('[data-mark="input-field"]');
+            inputs.forEach(function(input) {
+                originalInputs[input] = input.value;
+                input.addEventListener('dblclick', function() {
+                    this.removeAttribute('readonly');
+                    this.classList.add('editable');
+                    this.focus();
+                });
+                input.addEventListener('blur', function() {
+                    this.setAttribute('readonly', true);
+                    this.classList.remove('editable');
+                    // checkForChanges();
+                });
+                input.addEventListener('input', function() {
+                    // checkForChanges();
+                });
             });
         });
-    });
-    function checkForChanges() {
-        var inputs = document.querySelectorAll('[data-mark="input-field"]');
-        var saveButton = document.getElementById('save-button');
-        var hasChanges = false;
-        if (inputs.length !== originalInputs.length) {
-            hasChanges = true;
-        } else {
-            inputs.forEach(function(input) {
-                if (input.value !== originalInputs[input]) {
-                    hasChanges = true;
-                    return;
-                }
-            });
+        function checkForChanges() {
+            var inputs = document.querySelectorAll('[data-mark="input-field"]');
+            var saveButton = document.getElementById('save-button');
+            var hasChanges = false;
+            if (inputs.length !== originalInputs.length) {
+                hasChanges = true;
+            } else {
+                inputs.forEach(function(input) {
+                    if (input.value !== originalInputs[input]) {
+                        hasChanges = true;
+                        return;
+                    }
+                });
+            }
+            saveButton.classList.toggle('hidden', !hasChanges);
         }
-        saveButton.classList.toggle('hidden', !hasChanges);
-    }
-    document.getElementById('delete-button').addEventListener('click', function(event) {
-        event.preventDefault();
-        const form = document.getElementById('task-form');
-        if (confirm('Are you sure you want to delete this task?')) {
-            form.action = '{{ route('tasks.destroy', $task) }}';
-            form.method = 'DELETE';
-            form.submit();
-            form.action = '{{ route('tasks.update', $task) }}';
-            form.method = 'PUT';
-        }
-    });
-</script>
+        document.getElementById('delete-button').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('task-form');
+            if (confirm('Are you sure you want to delete this task?')) {
+                form.action = '{{ route('tasks.destroy', $task) }}';
+                form.method = 'DELETE';
+                form.submit();
+                form.action = '{{ route('tasks.update', $task) }}';
+                form.method = 'PUT';
+            }
+        });
+    </script>
+@endif
