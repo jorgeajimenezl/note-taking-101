@@ -10,11 +10,18 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::where('author_id', auth()->id())->get()->sortBy('created_at')->partition(function ($task) {
+        $tasks = Task::whereHas('contributors', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->where('author_id', '!=', auth()->id())
+            ->get();
+
+        // Partition tasks into completed and uncompleted
+        $partitionedTasks = $tasks->sortBy('created_at')->partition(function ($task) {
             return ! $task->isCompleted();
         });
-        $uncompletedTasks = $tasks[0];
-        $completedTasks = $tasks[1];
+
+        $uncompletedTasks = $partitionedTasks[0];
+        $completedTasks = $partitionedTasks[1];
 
         return view('tasks.index')->with([
             'uncompletedTasks' => $uncompletedTasks,
@@ -50,12 +57,17 @@ class TaskController extends Controller
 
     public function show(int $id)
     {
+        $user = auth()->user();
+
         $task = Task::findOrFail($id);
-        $allTags = Tag::where('user_id', auth()->id())->get();
+        $allTags = Tag::where('user_id', $user->id)->get();
+        $role = $task->getUserRole($user);
 
-        $task->authorized();
+        if ($role === null) {
+            abort(403);
+        }
 
-        return view('tasks.show', compact('task', 'allTags'));
+        return view('tasks.show', compact('task', 'allTags', 'role'));
     }
 
     public function toggleComplete(Request $request, Task $task)
@@ -76,6 +88,11 @@ class TaskController extends Controller
         ]);
 
         $task = Task::find($id);
+        $role = $task->getUserRole(auth()->user());
+
+        if ($role !== 'owner' && $role !== 'editor') {
+            abort(403);
+        }
 
         if ($task) {
             $task->update([
