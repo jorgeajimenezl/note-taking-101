@@ -13,11 +13,13 @@
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
                         <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />
-                        <x-primary-button id="save-button" class="ml-4">Save Changes</x-primary-button>
-                        <x-danger-button id="delete-button" class="ml-2">
-                            <i class="fas fa-trash-alt"></i> 
-                            <span class="ml-1">Delete</span>
-                        </x-danger-button>
+                        @if($role !== 'viewer')
+                            <x-primary-button id="save-button" class="ml-4">Save Changes</x-primary-button>                        
+                            <x-danger-button id="delete-button" class="ml-2">
+                                <i class="fas fa-trash-alt"></i> 
+                                <span class="ml-1">Delete</span>
+                            </x-danger-button>
+                        @endif
                     </div>
                 </div>
                 <main>
