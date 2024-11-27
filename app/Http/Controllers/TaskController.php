@@ -10,9 +10,10 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::whereHas('contributors', function ($query) {
-            $query->where('user_id', auth()->id());
-        })->where('author_id', '!=', auth()->id())
+        $tasks = Task::where('author_id', auth()->id())
+            ->orWhereHas('contributors', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->get();
 
         // Partition tasks into completed and uncompleted
