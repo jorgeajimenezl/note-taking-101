@@ -34,17 +34,21 @@
         }
     }
 
+    function showInfo(message) {
+        const infoMessage = document.getElementById('infoMessage');
+        infoMessage.textContent = message;
+        infoMessage.classList.remove('hidden');
+        setTimeout(() => {
+            infoMessage.classList.add('hidden');
+        }, 5000);
+    }
+
     function requestAddContributor() {
         const email = document.getElementById('contributorEmail').value;
         const role = document.getElementById('contributorRole').value;
 
         if (contributorSet.has(email)) {
-            document.getElementById('infoMessage')
-                    .classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('infoMessage')
-                        .classList.add('hidden');
-            }, 2000);
+            showInfo('You already added this contributor');
             return;
         }
 
@@ -61,12 +65,13 @@
                     action: 'add'
                 }),
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to add contributor');
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    showInfo(data.errors[0]);
+                    return;
                 }
-                return response.json();
-            }).then(data => {
+
                 addExistingContributor(data.contributor);
             }).catch(error => {
                 console.error(error);
