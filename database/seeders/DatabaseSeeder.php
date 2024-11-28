@@ -24,18 +24,22 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create();
         Task::factory(10)->create();
-        Tag::factory(10)->create();
+        Tag::factory(30)->create();
 
         // Give each task between 1 and 4 tags
         foreach (Task::all() as $task) {
-            $tags = Tag::inRandomOrder()->take(random_int(1, 4))->get();
+            $tags = Tag::where('user_id', $task->user_id)
+                ->inRandomOrder()
+                ->take(random_int(1, 4))
+                ->get();
+
             $task->tags()->attach($tags);
         }
 
         // Create contributors
         foreach (Task::all() as $task) {
             $contributors = User::whereNot('id', $task->user_id)->inRandomOrder()->take(random_int(1, 10))->get();
-            $task->contributors()->attach($contributors);
+            $task->contributors()->attach($contributors, ['role' => fake()->randomElement(['editor', 'viewer'])]);
         }
     }
 }
