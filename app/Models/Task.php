@@ -37,7 +37,7 @@ class Task extends Model
         return $this->completed_at !== null;
     }
 
-    public function getUserRole(User $user): string | null
+    public function getUserRole(User $user): ?string
     {
         if ($this->author_id === $user->id) {
             $role = 'owner';
