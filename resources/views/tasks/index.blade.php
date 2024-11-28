@@ -1,17 +1,18 @@
 <x-app-layout title="Tasks">
+    <div class="flex justify-end my-5 max-w-screen-md mx-auto">
+        <a href="{{ route('tasks.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">Create</a>
+    </div>
+
     <div class="container mx-auto bg-white rounded-lg shadow-lg my-5 max-w-screen-md p-5">
+        <h2 class="text-xl font-semibold mb-4">Tasks</h2>
         @if($uncompletedTasks->isEmpty() && $completedTasks->isEmpty())
             <div class="text-gray-500 text-center py-10 flex flex-col items-center">
                 <svg class="w-16 h-16 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 4H7m4-8h.01M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
                 </svg>
                 <p class="text-xl">No tasks available</p>
-                <a href="{{ route('tasks.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">Create</a>
             </div>
         @else
-            <div class="flex justify-end mb-4">
-                <a href="{{ route('tasks.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">Create</a>
-            </div>
             <ul id="uncompleted-tasks" class="mb-6">
                 @foreach ($uncompletedTasks as $task)
                     <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
@@ -27,8 +28,18 @@
                         <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
                     </li>
                 @endforeach
-            </ul>
+            </ul>            
         @endif
+    </div>
+    <div class="container mx-auto bg-white rounded-lg shadow-lg my-5 max-w-screen-md p-5">
+        <h2 class="text-xl font-semibold mb-4">Shared Tasks</h2>
+        <ul id="shared-tasks">
+            @foreach ($sharedTasks as $task)
+                <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
+                    <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
+                </li>
+            @endforeach
+        </ul>
     </div>
     <style>
         .animate-move {

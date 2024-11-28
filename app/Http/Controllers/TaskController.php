@@ -10,23 +10,21 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::where('author_id', auth()->id())
-            ->orWhereHas('contributors', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->get();
+        $ownTasks = Task::where('author_id', auth()->id())
+            ->get()
+            ->sortBy('created_at')
+            ->partition(function ($task) {
+                return ! $task->isCompleted();
+            });
 
-        // Partition tasks into completed and uncompleted
-        $partitionedTasks = $tasks->sortBy('created_at')->partition(function ($task) {
-            return ! $task->isCompleted();
-        });
-
-        $uncompletedTasks = $partitionedTasks[0];
-        $completedTasks = $partitionedTasks[1];
+        $sharedTasks = Task::whereHas('contributors', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->get()->sortBy('created_at');
 
         return view('tasks.index')->with([
-            'uncompletedTasks' => $uncompletedTasks,
-            'completedTasks' => $completedTasks,
+            'uncompletedTasks' => $ownTasks[0],
+            'completedTasks' => $ownTasks[1],
+            'sharedTasks' => $sharedTasks,
         ]);
     }
 
@@ -73,6 +71,14 @@ class TaskController extends Controller
 
     public function toggleComplete(Request $request, Task $task)
     {
+        $request->validate([
+            'completed' => ['required', 'boolean'],
+        ]);
+
+        if ($task->author_id !== auth()->id()) {
+            abort(403);
+        }
+
         $task->update([
             'completed_at' => $request->completed ? now() : null,
         ]);
