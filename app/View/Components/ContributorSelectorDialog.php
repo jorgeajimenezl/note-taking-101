@@ -14,7 +14,7 @@ class ContributorSelectorDialog extends Component
     public function __construct(
         public Task $task,
     ) {
-        $this->contributors = $task->contributors()->get(['users.id', 'users.name'])->toArray();
+        $this->contributors = $task->contributors()->get(['users.id', 'users.name', 'users.email'])->toArray();
     }
 
     public function render(): View|Closure|string
