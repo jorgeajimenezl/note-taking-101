@@ -7,8 +7,14 @@
         <div class="flex flex-wrap gap-2 mb-4" id="contributors-container">
             <!-- Selected Contributors Go Here -->
         </div>
-        <input id="contributorEmail" type="email" placeholder="Enter contributor's email..." 
-               class="border rounded w-full px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+        <div class="flex gap-2">
+            <x-text-input id="contributorEmail" type="email" placeholder="Enter contributor's email..." class="w-full px-3 py-2"/>
+            <x-select-input id="contributorRole" name="role" class="w-1/4 px-3 py-2">
+                <option value="viewer" selected>Viewer</option>
+                <option value="editor">Editor</option>
+            </x-select-input>
+        </div>
+        <div id="infoMessage" class="text-orange-500 text-xs ml-1 mt-1 italic hidden">You already added this contributor</div> 
         <button type="button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onclick="validateContributorEmail()">Add Contributor</button>
         <!-- <div id="contributorSuggestions" class="mt-4 max-h-60 overflow-y-auto"> -->
             <!-- Filtered Contributor Suggestions Go Here -->
@@ -18,6 +24,7 @@
 
 <script>
     let contributors = {!! json_encode($contributors) !!};
+    let contributorSet = new Set(contributors.map(contributor => contributor.id));
 
     function toggleContributorDialog(show) {
         const dialog = document.getElementById('contributorDialog');
@@ -26,19 +33,36 @@
 
     function validateContributorEmail() {
         const email = document.getElementById('contributorEmail').value;
-        fetch(`/validate-contributor-email?email=${email}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
+        fetch(`/contributors`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
                     addExistingContributor(data.contributor);
-                } else {
+                } else if (response.status === 404) {
                     alert('Contributor not found');
+                } else {
+                    alert('An error occurred');
                 }
             });
     }
 
     function addExistingContributor(contributor) {
+        if (contributorSet.has(contributor.id)) {
+            document.getElementById('infoMessage')
+                    .classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('infoMessage')
+                        .classList.add('hidden');
+            }, 2000);
+            return;
+        }
+
         contributors.push(contributor);
+        contributorSet.add(contributor.id);
         renderContributors();
         document.getElementById('contributorEmail').value = '';
     }
@@ -51,11 +75,12 @@
 
         contributors.forEach(contributor => {
             var hash = 0, chr;
-            for (var i = 0; i < this.length; i++) {
-                chr = this.charCodeAt(i);
+            for (var i = 0; i < contributor.name.length; i++) {
+                chr = contributor.name.charCodeAt(i);
                 hash = ((hash << 5) - hash) + chr;
                 hash |= 0;
             }
+            hash = Math.abs(hash);
 
             const contributorElement = `
                 <div class="flex items-center space-x-2">
@@ -70,6 +95,7 @@
     }
 
     function removeContributor(contributorId) {
+        contributorSet.delete(contributorId);
         contributors = contributors.filter(contributor => contributor.id !== contributorId);
         renderContributors();
     }
