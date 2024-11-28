@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -25,6 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
 
     Route::resource('/tags', TagController::class)->except(['edit', 'update', 'show']);
+    Route::get('/validate-contributor-email', [ContributorController::class, 'validateEmail']);
 });
 
 require __DIR__.'/auth.php';
