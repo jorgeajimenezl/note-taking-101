@@ -128,7 +128,7 @@
 
             const contributorElement = `
                 <div class="flex items-center space-x-2">
-                    <button type="button" class="w-8 h-8 rounded-full ${colors[hash % colors.length]} flex items-center justify-center text-white relative" onclick="requestRemoveContributor('${contributor.email}')">
+                    <button type="button" class="w-8 h-8 rounded-full ${colors[hash % colors.length]} flex items-center justify-center text-white relative" onclick="requestRemoveContributor('${contributor.email}')" title="${contributor.name}">
                         <span class="initials">${contributor.name.substring(0, 2).toUpperCase()}</span>
                         <span class="remove-icon hidden absolute">&times;</span>
                     </button>
