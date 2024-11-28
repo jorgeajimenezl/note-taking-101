@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         // Create contributors
         foreach (Task::all() as $task) {
-            $contributors = User::inRandomOrder()->take(random_int(1, 3))->get();
+            $contributors = User::whereNot('id', $task->user_id)->inRandomOrder()->take(random_int(1, 10))->get();
             $task->contributors()->attach($contributors);
         }
     }
