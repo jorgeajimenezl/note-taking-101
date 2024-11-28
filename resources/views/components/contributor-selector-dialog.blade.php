@@ -24,7 +24,7 @@
 
 <script>
     let contributors = {!! json_encode($contributors) !!};
-    let contributorSet = new Set(contributors.map(contributor => contributor.id));
+    let contributorSet = new Set(contributors.map(contributor => contributor.email));
 
     function toggleContributorDialog(show) {
         const dialog = document.getElementById('contributorDialog');
@@ -35,7 +35,10 @@
     }
 
     function requestAddContributor() {
-        if (contributorSet.has(contributor.id)) {
+        const email = document.getElementById('contributorEmail').value;
+        const role = document.getElementById('contributorRole').value;
+
+        if (contributorSet.has(email)) {
             document.getElementById('infoMessage')
                     .classList.remove('hidden');
             setTimeout(() => {
@@ -44,9 +47,6 @@
             }, 2000);
             return;
         }
-
-        const email = document.getElementById('contributorEmail').value;
-        const role = document.getElementById('contributorRole').value;
 
         fetch(`/api/contributors`, {
                 method: 'POST',
