@@ -30,6 +30,9 @@
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" :readonly="$role === 'viewer'"/>
                         <div class="mt-5"></div>
                         <x-textarea-input id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
+                        <div class="mt-5">
+                            <p>Author: <a href="mailto:{{ $task->author->email }}">{{ $task->author->name }}</a></p>
+                        </div>
                     </div>
                 </main>
             </div>
