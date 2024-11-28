@@ -28,9 +28,7 @@
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" :readonly="$role === 'viewer'"/>
                         <div class="mt-5"></div>
-                        <!-- place the contributor selector here -->
-                        <div class="mt-5"></div>
-                        <x-text-area-input id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
+                        <x-textarea-input id="task-description" label="Description" name="description" value="{{$task->description}}" placeholder="Description" readonly=true />
                     </div>
                 </main>
             </div>

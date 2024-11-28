@@ -1,3 +1,4 @@
+@props(['name', 'value', 'label', 'readonly' => null, 'rows' => 5])
 @include('components.form._form-label')
 
 @php
@@ -7,14 +8,13 @@
     }
 @endphp
 
-<textarea 
-    @isset($id) id="{{ $id }}" @endisset 
-    data-mark="input-field" 
+<textarea
     {{ $attributes->merge(['class' => $inputClasses]) }}
+    data-mark="input-field"
     rows="{{ $rows ?? 5 }}"
+    name="{{ $name }}"
+    id="{{ $name }}"
     @if($readonly) readonly @endif
 >{{ old($name, $value) }}</textarea>
 
 @include('components.form._form-error-handling')
-
-<br/><br/>

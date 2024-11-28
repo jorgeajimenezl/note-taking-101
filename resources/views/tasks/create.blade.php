@@ -21,7 +21,7 @@
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="[]" :allTags="$allTags->all()" />
                         <div class="mt-2"></div>
-                        <x-text-area-input id="task-description" label="Description" name="description" placeholder="Description" />
+                        <x-textarea-input id="task-description" label="Description" name="description" placeholder="Description" />
                     </div>
                 </main>
             </div>
