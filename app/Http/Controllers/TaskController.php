@@ -119,6 +119,11 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
+
+        if ($task->author_id !== auth()->id()) {
+            abort(403);
+        }
+
         $task->delete();
 
         return redirect()->route('tasks.index');

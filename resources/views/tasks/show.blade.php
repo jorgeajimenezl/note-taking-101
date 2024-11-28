@@ -13,19 +13,22 @@
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
                         <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />                        
-                        @if($role !== 'viewer')
+                        @if($role === 'editor' || $role === 'owner')
                             <x-primary-button id="save-button" class="ml-2">
                                 <i class="fas fa-save"></i> 
                                 <span class="ml-1">Save</span>
                             </x-primary-button>
-                            <x-primary-button id="share-button" class="ml-2" type="button" onclick="toggleContributorDialog(true)">
-                                <i class="fas fa-share-alt"></i> 
-                                <span class="ml-1">Share</span>
-                            </x-primary-button>
-                            <x-danger-button id="delete-button" class="ml-2">
-                                <i class="fas fa-trash-alt"></i> 
-                                <span class="ml-1">Delete</span>
-                            </x-danger-button>
+                            @if($role === 'owner')        
+                                <x-danger-button id="delete-button" class="ml-2">
+                                    <i class="fas fa-trash-alt"></i> 
+                                    <span class="ml-1">Delete</span>
+                                </x-danger-button>
+                                <div class="separator mx-2"></div>
+                                <x-primary-button id="share-button" class="ml-1" type="button" onclick="toggleContributorDialog(true)">
+                                    <i class="fas fa-share-alt"></i> 
+                                    <span class="ml-1">Share</span>
+                                </x-primary-button>
+                            @endif
                         @endif
                     </div>
                     <x-input-error :messages="$errors->get('title')" class="mt-2" />
@@ -51,6 +54,11 @@
     }
     #task-title {
         box-shadow: none;
+    }
+    .separator {
+        width: 1px;
+        height: 24px;
+        background-color: #000;
     }
 </style>
 
@@ -97,10 +105,10 @@
             const form = document.getElementById('task-form');
             if (confirm('Are you sure you want to delete this task?')) {
                 form.action = '{{ route('tasks.destroy', $task) }}';
-                form.method = 'DELETE';
+                document.getElementsByName('_method')[0].value = 'DELETE';
                 form.submit();
                 form.action = '{{ route('tasks.update', $task) }}';
-                form.method = 'PUT';
+                document.getElementsByName('_method')[0].value = 'PUT';
             }
         });
     </script>

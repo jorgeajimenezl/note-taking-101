@@ -36,6 +36,12 @@ class ContributorController extends Controller
 
         $contributorUser = User::where('email', $request->email)->first(['id', 'name', 'email']);
 
+        if ($contributorUser->id === auth()->id()) {
+            return response()->json([
+                'errors' => ['You cannot add yourself as a contributor'],
+            ], 400);
+        }
+
         if ($contributorUser === null) {
             return response()->json([
                 'errors' => ['User not found'],
