@@ -34,7 +34,7 @@ class ContributorController extends Controller
             ], 403);
         }
 
-        $contributorUser = User::where('email', $request->email)->first(['id', 'name']);
+        $contributorUser = User::where('email', $request->email)->first(['id', 'name', 'email']);
 
         if ($request->action === 'add') {
             $task->contributors()->attach($contributorUser->id, ['role' => $request->role]);
