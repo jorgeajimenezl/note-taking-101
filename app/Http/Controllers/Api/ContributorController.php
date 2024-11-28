@@ -30,7 +30,7 @@ class ContributorController extends Controller
 
         if (auth()->id() === null || $task->author_id !== auth()->id()) {
             return response()->json([
-                'message' => 'You are not allowed to add contributors to this task',
+                'errors' => ['You are not allowed to change contributors to this task'],
             ], 403);
         }
 
@@ -38,7 +38,7 @@ class ContributorController extends Controller
 
         if ($contributorUser === null) {
             return response()->json([
-                'message' => 'User not found',
+                'errors' => ['User not found'],
             ], 404);
         }
 
