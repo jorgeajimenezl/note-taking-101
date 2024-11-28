@@ -21,7 +21,7 @@ class TagController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => ['required', 'string', 'max:255', 'min:3'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
         ]);
 
         Tag::create([
