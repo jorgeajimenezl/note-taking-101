@@ -13,7 +13,7 @@ class ContributorController extends Controller
         $contributor = User::where('email', $email)->first();
 
         if ($contributor) {
-            return response()->json(['exists' => true, 'contributor' => $contributor->only('id')]);
+            return response()->json(['exists' => true, 'contributor' => $contributor]);
         } else {
             return response()->json(['exists' => false]);
         }
