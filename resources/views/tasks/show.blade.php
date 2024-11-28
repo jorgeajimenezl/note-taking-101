@@ -14,8 +14,14 @@
                     <div class="title-section flex items-center justify-between">
                         <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />                        
                         @if($role !== 'viewer')
-                            <x-primary-button id="save-button" class="ml-2">Save Changes</x-primary-button>
-                            <x-primary-button id="share-button" class="ml-2" type="button" onclick="toggleContributorDialog(true)">Share</x-primary-button>
+                            <x-primary-button id="save-button" class="ml-2">
+                                <i class="fas fa-save"></i> 
+                                <span class="ml-1">Save</span>
+                            </x-primary-button>
+                            <x-primary-button id="share-button" class="ml-2" type="button" onclick="toggleContributorDialog(true)">
+                                <i class="fas fa-share-alt"></i> 
+                                <span class="ml-1">Share</span>
+                            </x-primary-button>
                             <x-danger-button id="delete-button" class="ml-2">
                                 <i class="fas fa-trash-alt"></i> 
                                 <span class="ml-1">Delete</span>
