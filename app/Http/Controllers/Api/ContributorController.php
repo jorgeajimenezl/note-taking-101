@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ContributorController extends Controller
 {
-    public function modifyContributor(Request $request)
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users,email'],
-            'role' => ['required', 'string', 'in:admin,editor,viewer'],
+            'role' => ['required_if:action,add', 'string', 'in:admin,editor,viewer'],
             'task' => ['required', 'integer', 'exists:tasks,id'],
             'action' => ['required', 'string', 'in:add,remove'],
         ]);
@@ -28,7 +28,7 @@ class ContributorController extends Controller
 
         $task = Task::find($request->task);
 
-        if ($task->author_id !== auth()->id()) {
+        if (auth()->id() === null || $task->author_id !== auth()->id()) {
             return response()->json([
                 'message' => 'You are not allowed to add contributors to this task',
             ], 403);
@@ -36,12 +36,20 @@ class ContributorController extends Controller
 
         $contributorUser = User::where('email', $request->email)->first(['id', 'name', 'email']);
 
-        if ($request->action === 'add') {
-            $task->contributors()->attach($contributorUser->id, ['role' => $request->role]);
-        } else {
-            $task->contributors()->detach($contributorUser->id);
+        if ($contributorUser === null) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
         }
 
-        return response()->json(['contributor' => $contributorUser]);
+        if ($request->action === 'add') {
+            $task->contributors()->attach($contributorUser->id, ['role' => $request->role]);
+
+            return response()->json(['message' => 'Contributor added', 'contributor' => $contributorUser]);
+        } else {
+            $task->contributors()->detach($contributorUser->id);
+
+            return response()->json((['message' => 'Contributor removed']));
+        }
     }
 }

@@ -43,6 +43,32 @@
         }, 5000);
     }
 
+    function requestRemoveContributor(contributorEmail) {
+        fetch(`/api/contributors`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ 
+                    email: contributorEmail, 
+                    task: {{ $task->id }}, 
+                    action: 'remove'
+                }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.errors) {
+                showInfo(data.errors[0]);
+                return;
+            }
+
+            removeContributor(contributorEmail);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
     function requestAddContributor() {
         const email = document.getElementById('contributorEmail').value;
         const role = document.getElementById('contributorRole').value;
@@ -64,23 +90,23 @@
                     task: {{ $task->id }}, 
                     action: 'add'
                 }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.errors) {
-                    showInfo(data.errors[0]);
-                    return;
-                }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.errors) {
+                showInfo(data.errors[0]);
+                return;
+            }
 
-                addExistingContributor(data.contributor);
-            }).catch(error => {
-                console.error(error);
-            });
+            addExistingContributor(data.contributor);
+        }).catch(error => {
+            console.error(error);
+        });
     }
 
     function addExistingContributor(contributor) {
         contributors.push(contributor);
-        contributorSet.add(contributor.id);
+        contributorSet.add(contributor.email);
         renderContributors();
         document.getElementById('contributorEmail').value = '';
     }
@@ -102,7 +128,7 @@
 
             const contributorElement = `
                 <div class="flex items-center space-x-2">
-                    <button type="button" class="w-8 h-8 rounded-full ${colors[hash % colors.length]} flex items-center justify-center text-white relative" onclick="removeContributor(${contributor.id})">
+                    <button type="button" class="w-8 h-8 rounded-full ${colors[hash % colors.length]} flex items-center justify-center text-white relative" onclick="requestRemoveContributor('${contributor.email}')">
                         <span class="initials">${contributor.name.substring(0, 2).toUpperCase()}</span>
                         <span class="remove-icon hidden absolute">&times;</span>
                     </button>
@@ -112,9 +138,9 @@
         });
     }
 
-    function removeContributor(contributorId) {
-        contributorSet.delete(contributorId);
-        contributors = contributors.filter(contributor => contributor.id !== contributorId);
+    function removeContributor(contributorEmail) {
+        contributorSet.delete(contributorEmail);
+        contributors = contributors.filter(contributor => contributor.email !== contributorEmail);
         renderContributors();
     }
 </script>

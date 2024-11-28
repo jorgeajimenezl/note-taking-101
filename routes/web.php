@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('api/contributors', [ContributorController::class, 'modifyContributor'])->name('contributors.modify');
+    Route::post('api/contributors', [ContributorController::class, 'update'])->name('contributors.update');
 });
 
 require __DIR__.'/auth.php';
