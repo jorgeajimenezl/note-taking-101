@@ -12,9 +12,9 @@ class ContributorSelectorDialog extends Component
     public array $contributors;
 
     public function __construct(
-        public int $taskId,
+        public Task $task,
     ) {
-        $this->contributors = Task::find($this->taskId)->contributors->all();
+        $this->contributors = $task->contributors()->get(['users.id', 'users.name'])->toArray();
     }
 
     public function render(): View|Closure|string

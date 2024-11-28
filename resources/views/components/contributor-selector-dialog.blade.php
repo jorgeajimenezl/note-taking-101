@@ -61,7 +61,7 @@
                 body: JSON.stringify({ 
                     email, 
                     role, 
-                    task: {{ $taskId }}, 
+                    task: {{ $task->id }}, 
                     action: 'add'
                 }),
             })

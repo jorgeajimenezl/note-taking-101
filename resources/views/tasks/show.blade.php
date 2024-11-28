@@ -24,7 +24,7 @@
                     </div>
                     <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
-                <x-contributor-selector-dialog :taskId="$task->id"/>
+                <x-contributor-selector-dialog :task="$task"/>
                 <main>
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <x-tag-selector id="task-tags" name="tags" label="Tags" :tags="$task->tags->all()" :allTags="$allTags->all()" :readonly="$role === 'viewer'"/>
