@@ -108,7 +108,7 @@ class TaskController extends Controller
             ]);
 
             $task->tags()->sync($request->tags);
-            session()->flash('success', $task->title);
+            session()->flash('success', 'Task updated successfully');
 
             return redirect()->route('tasks.show', $task->id);
         } else {

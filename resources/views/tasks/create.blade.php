@@ -1,11 +1,11 @@
 <x-app-layout>
-    @if(session()->has('success'))
-    <div class="bg-green-100 text-green-500 p-2">
-        {!! session()->get('success') !!}
-    </div>
-    @endif
-
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        @if(session()->has('success'))
+        <div class="bg-green-100 text-green-500 p-2">
+            {!! session()->get('success') !!}
+        </div>
+        @endif
+
         <form id="task-form" action="{{ route('tasks.store') }}" method="POST">
             @csrf
             @method("POST")

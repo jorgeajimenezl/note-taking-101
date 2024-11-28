@@ -1,18 +1,18 @@
 <x-app-layout title="{{$task->title}}">
-    @if(session()->has('success'))
-    <div class="bg-green-100 text-green-500 p-2">
-        {!! session()->get('success') !!}
-    </div>
-    @endif
-
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        @if(session()->has('success'))
+        <div class="bg-green-100 text-green-500 p-2 mb-4">
+            {!! session()->get('success') !!}
+        </div>
+        @endif
+
         <form id="task-form" action="{{ route('tasks.update', $task) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="bg-white shadow rounded-lg">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div class="title-section flex items-center justify-between">
-                        <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />
+                        <x-text-input id="task-title" data-mark="input-field" class="text-3xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow" value="{{$task->title}}" name="title" readonly />                        
                         @if($role !== 'viewer')
                             <x-primary-button id="save-button" class="ml-2">Save Changes</x-primary-button>
                             <x-primary-button id="share-button" class="ml-2" type="button" onclick="toggleContributorDialog(true)">Share</x-primary-button>
@@ -22,6 +22,7 @@
                             </x-danger-button>
                         @endif
                     </div>
+                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
                 <x-contributor-selector-dialog :taskId="$task->id"/>
                 <main>
