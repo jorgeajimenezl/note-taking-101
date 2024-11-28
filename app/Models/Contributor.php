@@ -10,6 +10,12 @@ class Contributor extends Model
     /** @use HasFactory<\Database\Factories\ContributorFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'task_id',
+        'user_id',
+        'role',
+    ];
+
     public function task()
     {
         return $this->belongsTo(Task::class, 'task_id');

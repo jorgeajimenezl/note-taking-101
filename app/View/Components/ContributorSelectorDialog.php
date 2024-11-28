@@ -9,12 +9,8 @@ use Illuminate\View\Component;
 class ContributorSelectorDialog extends Component
 {
     public function __construct(
-        public string $name,
-        public string $label,
         public array $contributors,
-        public array $allContributors,
-        public ?string $id = 'contributorsInput',
-        public ?bool $readonly = false,
+        public int $taskId,
     ) {}
 
     public function render(): View|Closure|string

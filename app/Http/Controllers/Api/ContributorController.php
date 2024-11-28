@@ -6,19 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ContributorController extends Controller
 {
     public function modifyContributor(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users,email'],
-            'role' => ['required', 'in:admin,editor,viewer'],
-            'task' => ['id', 'exists:tasks,id'],
-            'action' => ['required', 'in:add,remove'],
+            'role' => ['required', 'string', 'in:admin,editor,viewer'],
+            'task' => ['required', 'integer', 'exists:tasks,id'],
+            'action' => ['required', 'string', 'in:add,remove'],
         ]);
 
-        dump($validatedData);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Invalid data',
+                'errors' => $validator->errors()->all(),
+            ], 400);
+        }
 
         $task = Task::find($request->task);
 
@@ -28,14 +34,14 @@ class ContributorController extends Controller
             ], 403);
         }
 
-        $contributorUser = User::where('email', $request->email)->first();
+        $contributorUser = User::where('email', $request->email)->first(['id', 'name']);
 
-        if ($request->action === 'action') {
+        if ($request->action === 'add') {
             $task->contributors()->attach($contributorUser->id, ['role' => $request->role]);
         } else {
             $task->contributors()->detach($contributorUser->id);
         }
 
-        return response()->json(null, 200);
+        return response()->json(['contributor' => $contributorUser]);
     }
 }

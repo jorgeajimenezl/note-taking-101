@@ -15,7 +15,7 @@
             </x-select-input>
         </div>
         <div id="infoMessage" class="text-orange-500 text-xs ml-1 mt-1 italic hidden">You already added this contributor</div> 
-        <button type="button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onclick="validateContributorEmail()">Add Contributor</button>
+        <button type="button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onclick="requestAddContributor()">Add Contributor</button>
         <!-- <div id="contributorSuggestions" class="mt-4 max-h-60 overflow-y-auto"> -->
             <!-- Filtered Contributor Suggestions Go Here -->
         <!-- </div> -->
@@ -29,28 +29,12 @@
     function toggleContributorDialog(show) {
         const dialog = document.getElementById('contributorDialog');
         dialog.classList.toggle('hidden', !show);
+        if (show) {
+            renderContributors();
+        }
     }
 
-    function validateContributorEmail() {
-        const email = document.getElementById('contributorEmail').value;
-        fetch(`/contributors`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    addExistingContributor(data.contributor);
-                } else if (response.status === 404) {
-                    alert('Contributor not found');
-                } else {
-                    alert('An error occurred');
-                }
-            });
-    }
-
-    function addExistingContributor(contributor) {
+    function requestAddContributor() {
         if (contributorSet.has(contributor.id)) {
             document.getElementById('infoMessage')
                     .classList.remove('hidden');
@@ -61,6 +45,35 @@
             return;
         }
 
+        const email = document.getElementById('contributorEmail').value;
+        const role = document.getElementById('contributorRole').value;
+
+        fetch(`/api/contributors`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ 
+                    email, 
+                    role, 
+                    task: {{ $taskId }}, 
+                    action: 'add'
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add contributor');
+                }
+                return response.json();
+            }).then(data => {
+                addExistingContributor(data.contributor);
+            }).catch(error => {
+                console.error(error);
+            });
+    }
+
+    function addExistingContributor(contributor) {
         contributors.push(contributor);
         contributorSet.add(contributor.id);
         renderContributors();

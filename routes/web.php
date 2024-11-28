@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ContributorController;
+use App\Http\Controllers\Api\ContributorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -20,13 +20,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Tasks
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/tasks', TaskController::class)->except(['edit']);
     Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
 
     Route::resource('/tags', TagController::class)->except(['edit', 'update', 'show']);
-    Route::get('/validate-contributor-email', [ContributorController::class, 'validateEmail']);
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('api/contributors', [ContributorController::class, 'modifyContributor'])->name('contributors.modify');
 });
 
 require __DIR__.'/auth.php';
