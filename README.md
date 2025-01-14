@@ -14,41 +14,41 @@ This is a task management web application built with Laravel. It allows users to
 ## Installation
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/jorgeajimenezl/hs-laravel-01.git
-    cd hs-laravel-01
-    ```
+```sh
+git clone https://github.com/jorgeajimenezl/hs-laravel-01.git
+cd hs-laravel-01
+```
 
 2. Install dependencies:
-    ```sh
-    composer install
-    npm install
-    ```
+```sh
+composer install
+npm install
+```
 
 3. Copy the example environment file and configure the environment variables:
-    ```sh
-    cp .env.example .env
-    ```
+```sh
+cp .env.example .env
+```
 
 4. Generate an application key:
-    ```sh
-    php artisan key:generate
-    ```
+```sh
+php artisan key:generate
+```
 
 5. Run the database migrations and seed the database:
-    ```sh
-    php artisan migrate --seed
-    ```
+```sh
+php artisan migrate --seed
+```
 
 6. Build the front-end assets:
-    ```sh
-    npm run build
-    ```
+```sh
+npm run build
+```
 
 7. Start the development server:
-    ```sh
-    php artisan serve
-    ```
+```sh
+php artisan serve
+```
 
 ## Usage
 
