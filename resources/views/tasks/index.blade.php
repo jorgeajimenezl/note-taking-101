@@ -37,6 +37,9 @@
             @foreach ($sharedTasks as $task)
                 <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
                     <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
+                    <span class="ml-2 px-2 py-1 text-xs font-medium rounded-full {{ $task->user_role === 'owner' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
+                        {{ ucfirst($task->user_role) }}
+                    </span>
                 </li>
             @endforeach
         </ul>

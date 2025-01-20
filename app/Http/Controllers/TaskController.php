@@ -17,9 +17,11 @@ class TaskController extends Controller
                 return ! $task->isCompleted();
             });
 
-        $sharedTasks = Task::whereHas('contributors', function ($query) {
-            $query->where('user_id', auth()->id());
-        })->get()->sortBy('created_at');
+        $sharedTasks = Task::select('tasks.id', 'tasks.title', 'contributors.role as user_role')
+            ->join('contributors', 'tasks.id', '=', 'contributors.task_id')
+            ->where('contributors.user_id', auth()->id())
+            ->get()
+            ->sortBy('created_at');
 
         return view('tasks.index')->with([
             'uncompletedTasks' => $ownTasks[0],
@@ -59,7 +61,7 @@ class TaskController extends Controller
         $user = auth()->user();
 
         $task = Task::findOrFail($id);
-        $allTags = Tag::where('user_id', $user->id)->get();
+        $allTags = Tag::where('user_id', auth()->id())->get();
         $role = $task->getUserRole($user);
 
         if ($role === null) {
