@@ -92,6 +92,7 @@ class TaskController extends Controller
             'title' => ['required', 'string', 'min:5', 'max:255'],
             'description' => ['required', 'string'],
             'tags' => ['array'],
+            'attachments' => ['nullable', 'array'],
         ]);
 
         $task = Task::find($id);
@@ -101,19 +102,22 @@ class TaskController extends Controller
             abort(403);
         }
 
-        if ($task) {
-            $task->update([
-                'title' => $request->title,
-                'description' => $request->description,
-            ]);
-
-            $task->tags()->sync($request->tags);
-            session()->flash('success', 'Task updated successfully');
-
-            return redirect()->route('tasks.show', $task->id);
-        } else {
+        if ($task === null) {
             return redirect()->route('tasks.index')->withErrors('Task not found');
         }
+
+        $task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $task->tags()->sync($request->tags);
+        $task->addMultipleMediaFromRequest(['attachments'])->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection();
+        });
+        session()->flash('success', 'Task updated successfully');
+
+        return redirect()->route('tasks.show', $task->id);
     }
 
     public function destroy($id)
