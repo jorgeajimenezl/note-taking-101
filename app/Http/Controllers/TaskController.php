@@ -112,8 +112,8 @@ class TaskController extends Controller
         ]);
 
         $task->tags()->sync($request->tags);
-        $task->addMultipleMediaFromRequest(['attachments'])->each(function ($fileAdder) {
-            $fileAdder->toMediaCollection();
+        $task->addMultipleMediaFromRequest($request->attachments)->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection("task_attachments");
         });
         session()->flash('success', 'Task updated successfully');
 
