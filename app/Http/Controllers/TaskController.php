@@ -17,7 +17,9 @@ class TaskController extends Controller
                 return ! $task->isCompleted();
             });
 
-        $sharedTasks = Task::select('tasks.id', 'tasks.title', 'contributors.role as user_role')
+        $sharedTasks = Task::select(
+            ['tasks.id', 'tasks.title', 'tasks.slug', 'contributors.role as user_role']
+        )
             ->join('contributors', 'tasks.id', '=', 'contributors.task_id')
             ->where('contributors.user_id', auth()->id())
             ->get()
@@ -49,6 +51,7 @@ class TaskController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'author_id' => auth()->id(),
+            'slug' => Task::generateRandomSlug(),
         ]);
 
         $task->tags()->sync($request->tags);
@@ -56,11 +59,11 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function show(int $id)
+    public function show(string $slug)
     {
         $user = auth()->user();
 
-        $task = Task::findOrFail($id);
+        $task = Task::where('slug', $slug)->firstOrFail();
         $allTags = Tag::where('user_id', auth()->id())->get();
         $role = $task->getUserRole($user);
 
@@ -71,11 +74,13 @@ class TaskController extends Controller
         return view('tasks.show', compact('task', 'allTags', 'role'));
     }
 
-    public function toggleComplete(Request $request, Task $task)
+    public function toggleComplete(Request $request, string $slug)
     {
         $request->validate([
             'completed' => ['required', 'boolean'],
         ]);
+
+        $task = Task::where('slug', $slug)->firstOrFail();
 
         if ($task->author_id !== auth()->id()) {
             abort(403);
@@ -88,7 +93,7 @@ class TaskController extends Controller
         return response()->noContent();
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $slug)
     {
         $request->validate([
             'title' => ['required', 'string', 'min:5', 'max:255'],
@@ -97,7 +102,7 @@ class TaskController extends Controller
             // 'attachments' => ['nullable', 'array'],
         ]);
 
-        $task = Task::find($id);
+        $task = Task::where('slug', $slug)->first();
         $role = $task->getUserRole(auth()->user());
 
         if ($role !== 'owner' && $role !== 'editor') {
@@ -119,12 +124,12 @@ class TaskController extends Controller
         // });
         session()->flash('success', 'Task updated successfully');
 
-        return redirect()->route('tasks.show', $task->id);
+        return redirect()->route('tasks.show', $task->slug);
     }
 
-    public function destroy($id)
+    public function destroy(string $slug)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::where('slug', $slug)->first();
 
         if ($task->author_id !== auth()->id()) {
             abort(403);

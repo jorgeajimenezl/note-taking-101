@@ -15,17 +15,17 @@
         @else
             <ul id="uncompleted-tasks" class="mb-6">
                 @foreach ($uncompletedTasks as $task)
-                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
-                        <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}">
-                        <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
+                    <li id="task-item-{{ $task->slug }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
+                        <input type="checkbox" name="task" class="mr-2 task-checkbox" data-id="{{ $task->slug }}">
+                        <a href="{{ route('tasks.show', $task->slug) }}" id="task-title-{{ $task->slug }}" class="hover:underline">{{ $task->title }}</a>
                     </li>
                 @endforeach
             </ul>
             <ul id="completed-tasks">
                 @foreach ($completedTasks as $task)
-                    <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
-                        <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}" checked>
-                        <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
+                    <li id="task-item-{{ $task->slug }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
+                        <input type="checkbox" name="task" class="mr-2 task-checkbox" data-id="{{ $task->slug }}" checked>
+                        <a href="{{ route('tasks.show', $task->slug) }}" id="task-title-{{ $task->slug }}" class="line-through hover:underline">{{ $task->title }}</a>
                     </li>
                 @endforeach
             </ul>            
@@ -35,8 +35,8 @@
         <h2 class="text-xl font-semibold mb-4">Shared Tasks</h2>
         <ul id="shared-tasks">
             @foreach ($sharedTasks as $task)
-                <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center justify-between">
-                    <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
+                <li id="task-item-{{ $task->slug }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center justify-between">
+                    <a href="{{ route('tasks.show', $task->slug) }}" id="task-title-{{ $task->slug }}" class="hover:underline">{{ $task->title }}</a>
                     <span class="ml-2 px-2 py-1 text-xs font-medium rounded-full border {{ $task->user_role === 'editor' ? 'bg-blue-100 text-blue-800 border-blue-300' : 'bg-gray-100 text-gray-800 border-gray-300' }}">
                         {{ ucfirst($task->user_role) }}
                     </span>
@@ -89,11 +89,11 @@
 
             function handleCheckboxChange(event) {
                 const checkbox = event.target;
-                const taskId = checkbox.dataset.id;
+                const slug = checkbox.dataset.id;
                 const isCompleted = checkbox.checked;
-                const taskItem = document.querySelector(`#task-item-${taskId}`);
+                const taskItem = document.querySelector(`#task-item-${slug}`);
                 const targetList = isCompleted ? completedTasks : uncompletedTasks;
-                fetch(`/tasks/${taskId}/toggle-complete`, {
+                fetch(`/tasks/${slug}/toggle-complete`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -107,7 +107,7 @@
                         alert('Failed to update task status');
                         return;
                     }
-                    const taskTitle = taskItem.querySelector(`#task-title-${taskId}`);
+                    const taskTitle = taskItem.querySelector(`#task-title-${slug}`);
                     animateTaskMovement(taskItem, targetList, () => {
                         if (isCompleted) {
                             taskTitle.classList.add('line-through');
