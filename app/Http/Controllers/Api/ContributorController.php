@@ -15,7 +15,7 @@ class ContributorController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users,email'],
             'role' => ['required_if:action,add', 'string', 'in:admin,editor,viewer'],
-            'task' => ['required', 'integer', 'exists:tasks,id'],
+            'task' => ['required', 'string', 'exists:tasks,slug'],
             'action' => ['required', 'string', 'in:add,remove'],
         ]);
 
@@ -26,7 +26,7 @@ class ContributorController extends Controller
             ], 400);
         }
 
-        $task = Task::find($request->task);
+        $task = Task::where('slug', $request->task)->first(['id', 'author_id']);
 
         if (auth()->id() === null || $task->author_id !== auth()->id()) {
             return response()->json([

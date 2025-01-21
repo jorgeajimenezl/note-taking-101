@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/tasks', TaskController::class)->except(['edit']);
-    Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
+    Route::post('/tasks/{slug}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
 
     Route::resource('/tags', TagController::class)->except(['edit', 'update', 'show']);
 });

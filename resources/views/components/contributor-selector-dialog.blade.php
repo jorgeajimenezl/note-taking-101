@@ -52,7 +52,7 @@
                 },
                 body: JSON.stringify({ 
                     email: contributorEmail, 
-                    task: {{ $task->id }}, 
+                    task: "{{ $task->slug }}", 
                     action: 'remove'
                 }),
         })
@@ -87,7 +87,7 @@
                 body: JSON.stringify({ 
                     email, 
                     role, 
-                    task: {{ $task->id }}, 
+                    task: "{{ $task->slug }}", 
                     action: 'add'
                 }),
         })
