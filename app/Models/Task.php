@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -50,5 +51,16 @@ class Task extends Model implements HasMedia
         }
 
         return $role;
+    }
+
+    public static function generateRandomSlug(): string
+    {
+        $slug = null;
+
+        do {
+            $slug = Str::random(8);
+        } while (Task::where('slug', $slug)->exists());
+
+        return $slug;
     }
 }
