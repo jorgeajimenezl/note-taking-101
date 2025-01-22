@@ -18,7 +18,10 @@ class TasksList extends Component
     public function render()
     {
         $ownTasks = Task::where('author_id', auth()->id())
-            ->where('title', 'like', "%$this->search%")
+            ->where(function ($query) {
+                $query->where('title', 'like', "%$this->search%")
+                    ->orWhere('description', 'like', "%$this->search%");
+            })
             ->get()
             ->sortBy('created_at')
             ->partition(function ($task) {
@@ -28,7 +31,10 @@ class TasksList extends Component
         $sharedTasks = Task::select('tasks.id', 'tasks.title', 'contributors.role as user_role')
             ->join('contributors', 'tasks.id', '=', 'contributors.task_id')
             ->where('contributors.user_id', auth()->id())
-            ->where('tasks.title', 'like', "%$this->search%")
+            ->where(function ($query) {
+                $query->where('tasks.title', 'like', "%$this->search%")
+                    ->orWhere('tasks.description', 'like', "%$this->search%");
+            })
             ->get()
             ->sortBy('created_at');
 
