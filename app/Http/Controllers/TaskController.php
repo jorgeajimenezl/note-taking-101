@@ -15,9 +15,7 @@ class TaskController extends Controller
 
     public function create()
     {
-        $allTags = Tag::where('user_id', auth()->id())->get();
-
-        return view('tasks.create', compact('allTags'));
+        return view('tasks.create');
     }
 
     public function store(Request $request)

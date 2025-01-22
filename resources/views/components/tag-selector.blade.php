@@ -1,4 +1,3 @@
-@include('components.form._form-label')
 <div class="my-1"></div>
 <div class="flex flex-wrap gap-2" id="tags-container">    
 </div>

@@ -10,7 +10,6 @@ class TagSelector extends Component
 {
     public function __construct(
         public string $name,
-        public string $label,
         public array $tags,
         public array $allTags,
         public ?string $id = 'tagsInput',
