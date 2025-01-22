@@ -15,8 +15,8 @@ This is a task management web application built with Laravel. It allows users to
 
 1. Clone the repository:
 ```sh
-git clone https://github.com/jorgeajimenezl/hs-laravel-01.git
-cd hs-laravel-01
+git clone https://github.com/jorgeajimenezl/note-taking-101.git
+cd note-taking-101
 ```
 
 2. Install dependencies:
