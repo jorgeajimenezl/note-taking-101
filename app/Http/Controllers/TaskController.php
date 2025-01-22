@@ -10,24 +10,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $ownTasks = Task::where('author_id', auth()->id())
-            ->get()
-            ->sortBy('created_at')
-            ->partition(function ($task) {
-                return ! $task->isCompleted();
-            });
-
-        $sharedTasks = Task::select('tasks.id', 'tasks.title', 'contributors.role as user_role')
-            ->join('contributors', 'tasks.id', '=', 'contributors.task_id')
-            ->where('contributors.user_id', auth()->id())
-            ->get()
-            ->sortBy('created_at');
-
-        return view('tasks.index')->with([
-            'uncompletedTasks' => $ownTasks[0],
-            'completedTasks' => $ownTasks[1],
-            'sharedTasks' => $sharedTasks,
-        ]);
+        return view('tasks.index');
     }
 
     public function create()
