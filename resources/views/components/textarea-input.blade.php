@@ -1,5 +1,4 @@
-@props(['name', 'value', 'label', 'readonly' => null, 'rows' => 5])
-@include('components.form._form-label')
+@props(['name', 'value', 'readonly' => null, 'rows' => 5])
 
 @php
     $inputClasses = 'w-full p-1 rounded-lg border border-gray-200 mt-2';
