@@ -1,7 +1,7 @@
-@props(['name', 'value', 'readonly' => null, 'rows' => 5])
+@props(['name', 'value' => '', 'readonly' => null, 'rows' => 5])
 
 @php
-    $inputClasses = 'w-full p-1 rounded-lg border border-gray-200 mt-2';
+    $inputClasses = 'w-full p-1 mt-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm';
     if ($errors->has($name)) {
         $inputClasses .= ' border-red-500';
     }

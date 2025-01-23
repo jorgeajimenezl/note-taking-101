@@ -11,9 +11,8 @@
             <x-input-label class="mt-4 mb-2" for="task-tags[]" :value="__('Tags')"/>
             <livewire:tag-selector id="task-tags" name="tags" :readonly="false"/>
             <div class="mt-4"></div>
-            <x-textarea-input id="task-description" label="Description" name="description" placeholder="Description" value=""/>
-            <div class="mt-4"></div>
-            <div class="flex justify-end">
+            <x-textarea-input id="task-description" name="description" placeholder="Description" value=""/>
+            <div class="flex justify-end mt-4">
                 <x-primary-button id="save-button" type="submit">Create</x-primary-button>
             </div>
         </div>
