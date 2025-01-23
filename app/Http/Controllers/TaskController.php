@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -42,14 +41,13 @@ class TaskController extends Controller
         $user = auth()->user();
 
         $task = Task::findOrFail($id);
-        $allTags = Tag::where('user_id', auth()->id())->get();
         $role = $task->getUserRole($user);
 
         if ($role === null) {
             abort(403);
         }
 
-        return view('tasks.show', compact('task', 'allTags', 'role'));
+        return view('tasks.show', compact('task'));
     }
 
     public function toggleComplete(Request $request, Task $task)

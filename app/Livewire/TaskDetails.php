@@ -31,21 +31,23 @@ class TaskDetails extends Component
         $this->role = $task->getUserRole(auth()->user());
     }
 
-    public function render()
+    public function checkRole(string ...$role)
     {
-        if ($this->role === null) {
+        if (! empty($role) && ! in_array($this->role, $role)) {
             abort(403);
         }
+    }
+
+    public function render()
+    {
+        $this->checkRole('editor', 'owner', 'viewer');
 
         return view('livewire.task-details');
     }
 
     public function updated($name, $value)
     {
-        if ($this->role === null) {
-            abort(403);
-        }
-
+        $this->checkRole('editor', 'owner');
         $this->validate();
 
         if ($name === 'tags') {
@@ -57,6 +59,7 @@ class TaskDetails extends Component
 
     public function deleteTask()
     {
+        $this->checkRole('owner');
         $this->task->delete();
 
         return redirect()->route('tasks.index');
