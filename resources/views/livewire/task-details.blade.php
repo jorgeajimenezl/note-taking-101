@@ -8,8 +8,8 @@
 
             <x-contributor-selector-dialog :task="$task"/>        
             
-            <x-input-label class="mt-4 mb-2" for="task-tags[]" :value="__('Tags')"/>
-            <livewire:tag-selector id="task-tags" name="tags" :tags="$task->tags->all()" :readonly="$role === 'viewer'" wire:model.live="tags" />
+            <x-input-label class="mt-4 mb-2" :value="__('Tags')"/>
+            <livewire:tag-selector name="tags" :tags="$task->tags->all()" :readonly="$role === 'viewer'" />
             <div class="mt-4"></div>
             <x-textarea-input id="task-description" name="description" placeholder="Description" class="tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" wire:model.blur="description" wire:dirty.class="focus:ring-yellow-500 focus:border-yellow-500" :readonly="$role === 'viewer'" />
             <div class="mt-5">
@@ -21,7 +21,7 @@
                         <i class="fas fa-share-alt"></i> 
                         <span class="ml-1">Share</span>
                     </x-primary-button>
-                    <x-danger-button id="delete-button" class="ml-2" wire:click="deleteTask">
+                    <x-danger-button id="delete-button" class="ml-2" wire:click="deleteTask" wire:confirm="Are you sure you want to delete this task?">
                         <i class="fas fa-trash-alt"></i> 
                         <span class="ml-1">Delete</span>
                     </x-danger-button>                    

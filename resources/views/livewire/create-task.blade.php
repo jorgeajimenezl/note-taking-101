@@ -8,8 +8,8 @@
             </div>
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
 
-            <x-input-label class="mt-4 mb-2" for="task-tags[]" :value="__('Tags')"/>
-            <livewire:tag-selector id="task-tags" name="tags" :readonly="false"/>
+            <x-input-label class="mt-4 mb-2" :value="__('Tags')"/>
+            <livewire:tag-selector name="tags" :readonly="false"/>
             <div class="mt-4"></div>
             <x-textarea-input id="task-description" name="description" placeholder="Description" value=""/>
             <div class="flex justify-end mt-4">

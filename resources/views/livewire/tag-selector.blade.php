@@ -1,10 +1,9 @@
-@props([])
 <div>
     <div class="flex flex-wrap gap-2" id="tags-container">
         @foreach($tags as $tag)
             <div class="flex items-center bg-blue-500 text-white rounded-full px-3 py-1">
                 {{ $tag->name }}
-                <input type="hidden" data-mark="input-field" name="{{ $name }}[]" id="{{ $id }}" value="{{ $tag->id }}" />
+                <input type="hidden" name="{{ $name }}[]" value="{{ $tag->id }}"/>
                 @if (!$readonly)
                     <button type="button" class="ml-2 text-sm text-white hover:text-gray-200" wire:click="deleteTag({{ $tag->id }})">
                         &times;

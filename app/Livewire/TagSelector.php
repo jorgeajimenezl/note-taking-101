@@ -34,12 +34,14 @@ class TagSelector extends Component
     public function deleteTag(Tag $tag)
     {
         $this->tags = array_diff($this->tags, [$tag]);
+        $this->dispatch('tags-updated', $this->tags);
     }
 
     public function addTag(Tag $tag)
     {
         if (! in_array($tag, $this->tags)) {
             $this->tags[] = $tag;
+            $this->dispatch('tags-updated', $this->tags);
         }
         $this->showDialog = false;
     }

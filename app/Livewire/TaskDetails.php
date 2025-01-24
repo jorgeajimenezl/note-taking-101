@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Task;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -18,16 +19,12 @@ class TaskDetails extends Component
     #[Validate('required|string', message: 'The description field is required.')]
     public string $description;
 
-    #[Validate('array')]
-    public array $tags = [];
-
     public function mount(Task $task)
     {
         $this->task = $task;
 
         $this->title = $task->title;
         $this->description = $task->description;
-        $this->tags = $task->tags->pluck('id')->toArray();
         $this->role = $task->getUserRole(auth()->user());
     }
 
@@ -50,11 +47,15 @@ class TaskDetails extends Component
         $this->checkRole('editor', 'owner');
         $this->validate();
 
-        if ($name === 'tags') {
-            $this->task->tags()->sync($value);
-        } else {
-            $this->task->update([$name => $value]);
-        }
+        $this->task->update([$name => $value]);
+    }
+
+    #[On('tags-updated')]
+    public function updateTags($tags)
+    {
+        $this->task->tags()->sync(array_map(function ($tag) {
+            return $tag['id'];
+        }, $tags));
     }
 
     public function deleteTask()
