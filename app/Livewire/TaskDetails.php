@@ -53,6 +53,9 @@ class TaskDetails extends Component
     #[On('tags-updated')]
     public function updateTags($tags)
     {
+        $this->checkRole('editor', 'owner');
+
+        // TODO: Improve this to avoid multiple queries
         $this->task->tags()->sync(array_map(function ($tag) {
             return $tag['id'];
         }, $tags));
