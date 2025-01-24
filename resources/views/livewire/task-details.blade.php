@@ -5,9 +5,7 @@
                 <x-text-input id="task-title" data-mark="input-field" class="text-xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" name="title" wire:model.blur="title" wire:dirty.class="focus:ring-yellow-500 focus:border-yellow-500" :readonly="$role === 'viewer'" />
             </div>
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
-
-            <x-contributor-selector-dialog :task="$task"/>        
-            
+            <x-contributor-selector-dialog :task="$task"/>            
             <x-input-label class="mt-4 mb-2" :value="__('Tags')"/>
             <livewire:tag-selector name="tags" :tags="$task->tags->all()" :readonly="$role === 'viewer'" />
             <div class="mt-4"></div>
