@@ -19,10 +19,13 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        ray($request->all());
         $request->validate([
             'description' => ['required', 'string'],
             'title' => ['required', 'string', 'min:5', 'max:255'],
             'tags' => ['array'],
+            'attachments' => ['array', 'max:5'], // max 5 files
+            'attachments.*' => ['bail', 'file', 'max:10240'], // 10MB
         ]);
 
         $task = Task::create([
@@ -32,6 +35,10 @@ class TaskController extends Controller
         ]);
 
         $task->tags()->sync($request->tags);
+        $task->addMultipleMediaFromRequest(['attachments'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('attachments');
+            });
 
         return redirect()->route('tasks.index');
     }
@@ -73,7 +80,6 @@ class TaskController extends Controller
             'title' => ['required', 'string', 'min:5', 'max:255'],
             'description' => ['required', 'string'],
             'tags' => ['array'],
-            // 'attachments' => ['nullable', 'array'],
         ]);
 
         $task = Task::find($id);
@@ -93,9 +99,6 @@ class TaskController extends Controller
         ]);
 
         $task->tags()->sync($request->tags);
-        // $task->addMultipleMediaFromRequest($request->attachments)->each(function ($fileAdder) {
-        //     $fileAdder->toMediaCollection('task_attachments');
-        // });
         session()->flash('success', 'Task updated successfully');
 
         return redirect()->route('tasks.show', $task->id);
