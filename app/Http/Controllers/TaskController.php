@@ -19,7 +19,6 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        ray($request->all());
         $request->validate([
             'description' => ['required', 'string'],
             'title' => ['required', 'string', 'min:5', 'max:255'],

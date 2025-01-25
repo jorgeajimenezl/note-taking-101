@@ -6,6 +6,7 @@ use App\Models\Task;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TaskDetails extends Component
 {
@@ -67,5 +68,12 @@ class TaskDetails extends Component
         $this->task->delete();
 
         return redirect()->route('tasks.index');
+    }
+
+    public function deleteAttachment(Media $attachment)
+    {
+        ray($attachment);
+        $this->checkRole('editor', 'owner');
+        $attachment->delete();
     }
 }

@@ -10,6 +10,25 @@
             <livewire:tag-selector name="tags" :tags="$task->tags->all()" :readonly="$role === 'viewer'" />
             <div class="mt-4"></div>
             <x-textarea-input id="task-description" name="description" placeholder="Description" class="tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" wire:model.blur="description" wire:dirty.class="focus:ring-yellow-500 focus:border-yellow-500" :readonly="$role === 'viewer'" />
+            <!-- Attachments Section -->
+            <div class="flex items-center justify-between mt-4 mb-2">
+                <x-input-label :value="__('Attachments')"/>
+                <button type="button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" onclick="addAttchment()">
+                    <i class="fas fa-plus mr-1"></i> Add
+                </button>
+            </div>
+            <div class="attachments-section mt-2">
+                @foreach($task->getMedia('attachments') as $attachment)
+                <div class="attachment-placeholder bg-gray-100 p-2 rounded mb-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-paperclip mr-2"></i> {{ $attachment->getDownloadFilename() }}
+                    </div>
+                    <button type="button" class="text-red-500 hover:text-red-700" wire:click="deleteAttachment({{ $attachment }})">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                @endforeach
+            </div>
             <div class="mt-5">
                 <p>Author: <a href="mailto:{{ $task->author->email }}">{{ $task->author->name }}</a></p>
             </div>
