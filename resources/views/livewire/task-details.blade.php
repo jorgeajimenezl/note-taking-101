@@ -13,7 +13,7 @@
             <!-- Attachments Section -->
             <div class="flex items-center justify-between mt-4 mb-2">
                 <x-input-label :value="__('Attachments')"/>
-                <button type="button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" onclick="addAttchment()">
+                <button type="button" id="add-attachment-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" onclick="addAttchment()">
                     <i class="fas fa-plus mr-1"></i> Add
                 </button>
             </div>
@@ -46,4 +46,40 @@
             </div>
         </div>
     </div>
+    @script
+    <script>
+        document.getElementById('add-attachment-button').addEventListener('click', function() {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'attachment';
+            fileInput.classList.add('hidden');
+            fileInput.click();
+
+            fileInput.addEventListener('change', function(e) {
+                console.log(e.target.files);
+                if (e.target.files.length !== 1)
+                    return;
+                
+                $wire.upload('attachment', e.target.files[0], (uploadedFilename) => {
+                    // Success callback...
+                    console.log(uploadedFilename);
+                    $wire.call('addAttachment', uploadedFilename);
+                }, () => {
+                    // Error callback...
+                    console.log('Error uploading file');
+                }, (event) => {
+                    // Progress callback...
+                    // event.detail.progress contains a number between 1 and 100 as the upload progresses
+                    console.log(event.detail.progress);
+                }, () => {
+                    // Cancelled callback...
+                    console.log('Upload cancelled');
+                });
+            });
+            fileInput.addEventListener('cancel', function() {
+                fileInput.remove();
+            });
+        });
+    </script>
+    @endscript
 </form>

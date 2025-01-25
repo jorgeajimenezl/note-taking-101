@@ -6,10 +6,13 @@ use App\Models\Task;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TaskDetails extends Component
 {
+    use WithFileUploads;
+
     public Task $task;
 
     public string $role;
@@ -19,6 +22,9 @@ class TaskDetails extends Component
 
     #[Validate('required|string', message: 'The description field is required.')]
     public string $description;
+
+    #[Validate('bail|file|max:10240', message: 'The attachment must be a file and not exceed 10MB.')]
+    public $attachment;
 
     public function mount(Task $task)
     {
@@ -74,5 +80,23 @@ class TaskDetails extends Component
     {
         $this->checkRole('editor', 'owner');
         $attachment->delete();
+    }
+
+    public function addAttachment()
+    {
+        $this->checkRole('editor', 'owner');
+        $this->validate();
+
+        ray($this->attachment);
+
+        try {
+            $this->task->addMedia($this->attachment->getRealPath())
+                ->toMediaCollection('attachments')
+                ->setFileName($this->attachment->getClientOriginalName());
+        } catch (\Exception $e) {
+            $this->addError('attachment', $e->getMessage());
+        }
+
+        $this->attachment = null;
     }
 }
