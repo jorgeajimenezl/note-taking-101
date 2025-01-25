@@ -73,36 +73,6 @@ class TaskController extends Controller
         return response()->noContent();
     }
 
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5', 'max:255'],
-            'description' => ['required', 'string'],
-            'tags' => ['array'],
-        ]);
-
-        $task = Task::find($id);
-        $role = $task->getUserRole(auth()->user());
-
-        if ($role !== 'owner' && $role !== 'editor') {
-            abort(403);
-        }
-
-        if ($task === null) {
-            return redirect()->route('tasks.index')->withErrors('Task not found');
-        }
-
-        $task->update([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
-
-        $task->tags()->sync($request->tags);
-        session()->flash('success', 'Task updated successfully');
-
-        return redirect()->route('tasks.show', $task->id);
-    }
-
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
