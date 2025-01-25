@@ -88,7 +88,6 @@ class TaskDetails extends Component
     public function deleteAttachment(Media $attachment)
     {
         $this->checkRole('editor', 'owner');
-        ray($attachment);
         $attachment->delete();
     }
 
@@ -97,15 +96,13 @@ class TaskDetails extends Component
         $this->checkRole('editor', 'owner');
         $this->validate();
 
-        ray($this->attachment);
-
         try {
             $this->task->addMedia($this->attachment->getRealPath())
                 ->usingFileName($filename)
                 ->toMediaCollection('attachments');
         } catch (\Exception $e) {
             $this->addError('attachment', 'The attachment could not be uploaded.');
-            ray($e->getMessage());
+            ray($e->getMessage())->error();
         }
 
         $this->attachment = null;
