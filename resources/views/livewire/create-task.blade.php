@@ -45,6 +45,9 @@
                     addAttchmentItem(e);
                 }
             });
+            fileInput.addEventListener('cancel', function() {
+                fileInput.remove();
+            });
         }
         function addAttchmentItem(e) {
             const attachmentPlaceholder = document.createElement('div');
