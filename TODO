@@ -1,0 +1,1 @@
+- Fix a that the user cannot delete two attachments on row, needs to wait for the first one to be deleted and reload the page before deleting the second one

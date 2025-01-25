@@ -17,13 +17,22 @@ class TaskDetails extends Component
 
     public string $role;
 
-    #[Validate('required|string|min:5|max:255', message: 'The title must be at least 5 characters long and at most 255 characters long.')]
+    #[Validate('required|string|min:5|max:255', message: [
+        'required' => 'The title is required.',
+        'string' => 'The title must be a string.',
+        'min' => 'The title must be at least 5 characters.',
+        'max' => 'The title must not exceed 255 characters.',
+    ])]
     public string $title;
 
-    #[Validate('required|string', message: 'The description field is required.')]
+    #[Validate('required|string')]
     public string $description;
 
-    #[Validate('bail|file|max:10240', message: 'The attachment must be a file and not exceed 10MB.')]
+    #[Validate('required|file|max:10240', message: [
+        'required' => 'The attachment is required.',
+        'file' => 'The attachment must be a valid file.',
+        'max' => 'The attachment must not exceed 10MB.',
+    ])]
     public $attachment;
 
     public function mount(Task $task)
@@ -79,10 +88,11 @@ class TaskDetails extends Component
     public function deleteAttachment(Media $attachment)
     {
         $this->checkRole('editor', 'owner');
+        ray($attachment);
         $attachment->delete();
     }
 
-    public function addAttachment()
+    public function addAttachment(string $filename)
     {
         $this->checkRole('editor', 'owner');
         $this->validate();
@@ -91,10 +101,11 @@ class TaskDetails extends Component
 
         try {
             $this->task->addMedia($this->attachment->getRealPath())
-                ->toMediaCollection('attachments')
-                ->setFileName($this->attachment->getClientOriginalName());
+                ->usingFileName($filename)
+                ->toMediaCollection('attachments');
         } catch (\Exception $e) {
-            $this->addError('attachment', $e->getMessage());
+            $this->addError('attachment', 'The attachment could not be uploaded.');
+            ray($e->getMessage());
         }
 
         $this->attachment = null;
