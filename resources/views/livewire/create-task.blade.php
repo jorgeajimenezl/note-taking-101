@@ -57,6 +57,10 @@
                     <i class="fas fa-trash-alt"></i>
                 </button>
             `;
+            const removeButton = attachmentPlaceholder.querySelector('button');
+            removeButton.addEventListener('click', function() {
+                attachmentPlaceholder.remove();
+            });
             attachmentPlaceholder.appendChild(e.target);
             document.querySelector('.attachments-section').appendChild(attachmentPlaceholder);
         }
