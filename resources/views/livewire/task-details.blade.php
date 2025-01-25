@@ -13,7 +13,7 @@
             <!-- Attachments Section -->
             <div class="flex items-center justify-between mt-4 mb-2">
                 <x-input-label :value="__('Attachments')"/>
-                <button type="button" id="add-attachment-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" onclick="addAttchment()">
+                <button type="button" id="add-attachment-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm">
                     <i class="fas fa-plus mr-1"></i> Add
                 </button>
             </div>
