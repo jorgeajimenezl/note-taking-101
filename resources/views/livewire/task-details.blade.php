@@ -21,9 +21,9 @@
                 @foreach($task->getMedia('attachments') as $attachment)
                 <div class="attachment-placeholder bg-gray-100 p-2 rounded mb-2 flex items-center justify-between">
                     <div class="flex items-center">
-                        <i class="fas fa-paperclip mr-2"></i> {{ $attachment->getDownloadFilename() }}
+                        <i class="fas fa-paperclip mr-2"></i> {{ $attachment->file_name }}
                     </div>
-                    <button type="button" class="text-red-500 hover:text-red-700" wire:click="deleteAttachment({{ $attachment }})">
+                    <button type="button" class="text-red-500 hover:text-red-700" wire:click="deleteAttachment({{ $attachment->id }})">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>

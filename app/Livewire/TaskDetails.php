@@ -72,7 +72,6 @@ class TaskDetails extends Component
 
     public function deleteAttachment(Media $attachment)
     {
-        ray($attachment);
         $this->checkRole('editor', 'owner');
         $attachment->delete();
     }
