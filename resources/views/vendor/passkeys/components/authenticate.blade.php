@@ -1,16 +1,6 @@
 <div>
-    @include('passkeys::components.partials.authenticateScript')
-
-    <form id="passkey-login-form" method="POST" action="{{ route('passkeys.login') }}">
-        @csrf
-    </form>
-
-    @if($message = session()->get('authenticatePasskey::message'))
-        <div class="bg-red-100 text-red-700 p-4 border border-red-400 rounded">
-            {{ $message }}
-        </div>
-    @endif
-
+    @include('passkeys::components.partials.authenticateScript')  
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (browserSupportsWebAuthn()) {
@@ -41,4 +31,7 @@
         @endif
     </button>
     <div id="passkey-error-message" class="text-red-500 mt-2"></div>
+    @session('authenticatePasskey::message')
+        <div class="text-red-500 mt-2">Invalid passkey. Please try again.</div>
+    @endsession
 </div>

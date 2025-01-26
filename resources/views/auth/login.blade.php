@@ -2,6 +2,11 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Passkey Authentication Form -->
+    <form id="passkey-login-form" method="POST" action="{{ route('passkeys.login') }}">
+        @csrf
+    </form>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
