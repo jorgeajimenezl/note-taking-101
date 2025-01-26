@@ -31,9 +31,14 @@ class Task extends Model implements HasMedia
         return $this->belongsToMany(Tag::class, 'tag_task');
     }
 
+    // public function contributors()
+    // {
+    //     return $this->belongsToMany(User::class, 'contributors');
+    // }
+
     public function contributors()
     {
-        return $this->belongsToMany(User::class, 'contributors');
+        return $this->hasMany(Contributor::class, 'task_id');
     }
 
     public function isCompleted(): bool
