@@ -34,10 +34,12 @@ class TaskController extends Controller
         ]);
 
         $task->tags()->sync($request->tags);
-        $task->addMultipleMediaFromRequest(['attachments'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('attachments');
-            });
+        if ($request->has('attachments')) {
+            $task->addMultipleMediaFromRequest(['attachments'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('attachments');
+                });
+        }
 
         return redirect()->route('tasks.index');
     }
