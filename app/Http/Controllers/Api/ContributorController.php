@@ -49,11 +49,14 @@ class ContributorController extends Controller
         }
 
         if ($request->action === 'add') {
-            $task->contributors()->attach($contributorUser->id, ['role' => $request->role]);
+            $task->contributors()->create([
+                'user_id' => $contributorUser->id,
+                'role' => $request->role,
+            ]);
 
             return response()->json(['message' => 'Contributor added', 'contributor' => $contributorUser]);
         } else {
-            $task->contributors()->detach($contributorUser->id);
+            $task->contributors()->where('user_id', $contributorUser->id)->delete();
 
             return response()->json((['message' => 'Contributor removed']));
         }
