@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce3975e68a1cd1d2db7a061d27c4db0a",
+    "content-hash": "54ba7f964c71cfa58f339de404f2421d",
     "packages": [
         {
             "name": "brick/math",
@@ -4397,8 +4397,8 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spatie/laravel-passkeys.git",
-                "reference": "f0f7e80b0a4effb10e6881f3208579f15bcdbff8"
+                "url": "https://github.com/jorgeajimenezl/laravel-passkeys.git",
+                "reference": "fa6d667158adbf1389a48e5a3f5fddfe26dd9712"
             },
             "require": {
                 "illuminate/contracts": "^10.0||^11.0",
@@ -4490,7 +4490,7 @@
                 "laravel",
                 "laravel-passkeys"
             ],
-            "time": "2024-09-23T08:23:39+00:00"
+            "time": "2025-01-26T17:58:57+00:00"
         },
         {
             "name": "spatie/laravel-ray",
