@@ -13,8 +13,8 @@
         @csrf
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" class="mt-1 block w-full" />
+            <x-input-label for="create_api_key_name" :value="__('Name')" />
+            <x-text-input id="create_api_key_name" name="name" class="mt-1 block w-full" />
             <x-input-error :messages="$errors->storeToken->get('name')" class="mt-2" />
         </div>
 
