@@ -12,7 +12,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <h3 class="text-md font-medium text-gray-900">{{ $token->name }}</h3>
-                            <p class="text-sm text-gray-600">Created on: {{ $token->created_at->format('M d, Y') }}</p>
+                            <p class="text-sm text-gray-600">Created on: {{ $token->created_at->diffForHumans() }}</p>
                         </div>
                         <form method="post" action="{{ route('tokens.destroy', $token->id) }}">
                             @csrf
