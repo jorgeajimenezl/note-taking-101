@@ -26,8 +26,6 @@
                     <div class="ml-2">
                         Last used: {{ $passkey->last_used_at?->diffForHumans() ?? 'Not used yet' }}
                     </div>
-
-
                     <div>
                         <button wire:click="deletePasskey({{ $passkey->id }})" class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-red-600">
                             Delete
