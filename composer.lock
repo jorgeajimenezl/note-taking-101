@@ -4398,7 +4398,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jorgeajimenezl/laravel-passkeys.git",
-                "reference": "fa6d667158adbf1389a48e5a3f5fddfe26dd9712"
+                "reference": "44f07d83a1a9a79e8facff4660946367085d91e3"
             },
             "require": {
                 "illuminate/contracts": "^10.0||^11.0",
@@ -4490,7 +4490,7 @@
                 "laravel",
                 "laravel-passkeys"
             ],
-            "time": "2025-01-26T17:58:57+00:00"
+            "time": "2025-01-26T18:44:45+00:00"
         },
         {
             "name": "spatie/laravel-ray",
