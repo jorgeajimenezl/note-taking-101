@@ -36,4 +36,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('api/contributors', [ContributorController::class, 'update'])->name('contributors.update');
 });
 
+Route::passkeys();
+
 require __DIR__.'/auth.php';
