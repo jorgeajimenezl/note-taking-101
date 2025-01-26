@@ -8,6 +8,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Http\Request;
 
 class TaskDetails extends Component
 {
@@ -106,5 +107,11 @@ class TaskDetails extends Component
         }
 
         $this->attachment = null;
+    }
+
+    public function downloadAttachment(Request $request, Media $attachment)
+    {
+        $this->checkRole('editor', 'owner', 'viewer');
+        return $attachment->toInlineResponse($request);
     }
 }

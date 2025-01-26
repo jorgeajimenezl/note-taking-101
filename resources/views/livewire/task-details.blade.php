@@ -26,6 +26,10 @@
                         <i class="fas fa-paperclip mr-2"></i> 
                         <span class="truncate">{{ $attachment->file_name }}</span>
                     </div>
+                    <div class="grow"></div>
+                    <button type="button" class="text-black-500 hover:text-black-200 mr-4" wire:click.prevent="downloadAttachment({{ $attachment->id }})">
+                        <i class="fas fa-download"></i>
+                    </button>
                     @if($role !== 'viewer')
                         <button type="button" class="text-red-500 hover:text-red-700" wire:click.prevent="deleteAttachment({{ $attachment->id }})">
                             <i class="fas fa-trash-alt"></i>
@@ -69,12 +73,10 @@
             fileInput.click();
 
             fileInput.addEventListener('change', function(e) {
-                console.log(e.target.files);
                 if (e.target.files.length !== 1)
                     return;
 
                 const file = e.target.files[0];
-                console.log(file);
 
                 const attachmentPlaceholder = document.createElement('div');
                 attachmentPlaceholder.classList.add('attachment-placeholder', 'bg-gray-100', 'p-2', 'rounded', 'mb-2', 'flex', 'items-center', 'justify-between');
@@ -95,14 +97,12 @@
                 const progressCircle = attachmentPlaceholder.querySelector('#progress-circle');
                 
                 $wire.upload('attachment', file, (uploadedFilename) => {
-                    console.log(uploadedFilename);
                     attachmentPlaceholder.remove();
                     $wire.call('addAttachment', file.name);
                 }, () => {
                     console.log('Error uploading file');
                     attachmentPlaceholder.remove();
                 }, (event) => {
-                    console.log(event.detail.progress);
                     progressCircle.style.strokeDashoffset = 100 - event.detail.progress;
                 }, () => {
                     console.log('Upload cancelled');
