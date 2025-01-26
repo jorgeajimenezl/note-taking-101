@@ -14,10 +14,10 @@
         @else
             @if(! $uncompletedTasks->isEmpty() || ! $completedTasks->isEmpty())
                 <h2 class="text-xl font-semibold mb-4">Tasks</h2>            
-                <ul id="uncompleted-tasks" class="mb-6">
+                <ul id="uncompleted-tasks">
                     @foreach ($uncompletedTasks as $task)
                         <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
-                            <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}">
+                            <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox rounded-sm text-blue-600" data-id="{{ $task->id }}">
                             <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="hover:underline">{{ $task->title }}</a>
                         </li>
                     @endforeach
@@ -25,7 +25,7 @@
                 <ul id="completed-tasks">
                     @foreach ($completedTasks as $task)
                         <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center">
-                            <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox" data-id="{{ $task->id }}" checked>
+                            <input type="checkbox" name="task" value="{{ $task->id }}" class="mr-2 task-checkbox rounded-sm text-blue-600" data-id="{{ $task->id }}" checked>
                             <a href="{{ route('tasks.show', $task) }}" id="task-title-{{ $task->id }}" class="line-through hover:underline">{{ $task->title }}</a>
                         </li>
                     @endforeach
@@ -33,7 +33,7 @@
             @endif
             
             @if(! $sharedTasks->isEmpty())
-                <h2 class="text-xl font-semibold mb-4">Shared Tasks</h2>            
+                <h2 class="text-xl font-semibold my-4">Shared Tasks</h2>            
                 <ul id="shared-tasks">
                     @foreach ($sharedTasks as $task)
                         <li id="task-item-{{ $task->id }}" class="border-b border-gray-300 py-2 bg-gray-200 mt-2.5 p-2.5 rounded flex items-center justify-between">
