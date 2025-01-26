@@ -15,7 +15,6 @@ class ContributorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'role' => $this->role,
             'user' => new UserResource($this->user),
         ];
