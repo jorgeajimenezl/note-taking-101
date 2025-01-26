@@ -3,12 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Task;
+use Illuminate\Http\Request;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Http\Request;
 
 class TaskDetails extends Component
 {
@@ -112,6 +112,7 @@ class TaskDetails extends Component
     public function downloadAttachment(Request $request, Media $attachment)
     {
         $this->checkRole('editor', 'owner', 'viewer');
+
         return $attachment->toInlineResponse($request);
     }
 }
