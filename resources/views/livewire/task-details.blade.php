@@ -13,9 +13,11 @@
             <!-- Attachments Section -->
             <div class="flex items-center justify-between mt-4 mb-2">
                 <x-input-label :value="__('Attachments')"/>
-                <button type="button" id="add-attachment-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm">
-                    <i class="fas fa-plus mr-1"></i> Add
-                </button>
+                @if($role !== 'viewer')                    
+                    <button type="button" id="add-attachment-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm">
+                        <i class="fas fa-plus mr-1"></i> Add
+                    </button>
+                @endif
             </div>
             <div class="attachments-section mt-2">
                 @foreach($task->getMedia('attachments') as $attachment)
@@ -24,9 +26,11 @@
                         <i class="fas fa-paperclip mr-2"></i> 
                         <span class="truncate">{{ $attachment->file_name }}</span>
                     </div>
-                    <button type="button" class="text-red-500 hover:text-red-700" wire:click.prevent="deleteAttachment({{ $attachment->id }})">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    @if($role !== 'viewer')
+                        <button type="button" class="text-red-500 hover:text-red-700" wire:click.prevent="deleteAttachment({{ $attachment->id }})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    @endif                    
                 </div>
                 @endforeach
                 <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
