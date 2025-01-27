@@ -5,7 +5,7 @@
                 <x-text-input id="task-title" data-mark="input-field" class="text-xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" name="title" wire:model.blur="title" wire:dirty.class="focus:ring-yellow-500 focus:border-yellow-500" :readonly="$role === 'viewer'" />
             </div>
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
-            @if($role !== 'viewer')
+            @if($role === 'owner')
                 <livewire:contributor-selector :task="$task"/>
             @endif
             <x-input-label class="mt-4 mb-2" :value="__('Tags')"/>
@@ -46,7 +46,7 @@
             </div>
             <div class="flex justify-end mt-4">
                 @if($role === 'owner')
-                    <x-primary-button id="share-button" class="ml-1" type="button" onclick="toggleContributorDialog(true)">
+                    <x-primary-button id="share-button" class="ml-1" type="button" onclick="window.dispatchEvent(new CustomEvent('open-dialog'))">
                         <i class="fas fa-share-alt"></i> 
                         <span class="ml-1">Share</span>
                     </x-primary-button>

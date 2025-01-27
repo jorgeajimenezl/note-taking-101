@@ -1,1 +1,2 @@
 - Add API to Get tasks from Google Tasks API [Callback: /api/google-tasks/callback]
+- Show people editing the task in real time
