@@ -10,7 +10,7 @@ Route::get('/me', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('tasks', TaskController::class)->except('edit', 'update', 'create');
 
     Route::get('/tags', [TagController::class, 'index']);
     Route::post('/tags', [TagController::class, 'store']);
