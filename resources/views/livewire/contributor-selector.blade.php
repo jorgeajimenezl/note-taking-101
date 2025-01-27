@@ -1,6 +1,7 @@
 <div id="contributor-selector-modal"
     name="contributor-selector" 
     class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+    style="display: none;"
     x-data="{ isVisible: false }"
     @open-dialog.window="isVisible = true"
     @close-dialog.window="isVisible = false"
