@@ -22,7 +22,7 @@ class SharedTask extends Notification
     {
         return (new MailMessage)
             ->subject('Task shared with you')
-            ->from(config('mail.from.address'), $this->task->user->name)
+            ->from(config('mail.from.address'), $this->task->author->name)
             ->greeting('Hello '.$notifiable->name)
             ->line('A task has been shared with you')
             ->action('View Task', route('tasks.show', $this->task->id))
