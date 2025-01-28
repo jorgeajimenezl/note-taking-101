@@ -1,11 +1,13 @@
-<form id="task-form">
+<div>
     <div class="container mx-auto bg-white rounded-lg shadow-lg my-5 max-w-screen-md p-5">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div class="title-section flex items-center justify-between">
                 <x-text-input id="task-title" data-mark="input-field" class="text-xl font-bold tracking-tight text-gray-900 bg-transparent border-none focus:outline-none transition duration-300 ease-in-out flex-grow editable" name="title" wire:model.blur="title" wire:dirty.class="focus:ring-yellow-500 focus:border-yellow-500" :readonly="$role === 'viewer'" />
             </div>
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
-            <x-contributor-selector-dialog :task="$task"/>            
+            @if($role === 'owner')
+                <livewire:contributor-selector :task="$task"/>
+            @endif
             <x-input-label class="mt-4 mb-2" :value="__('Tags')"/>
             <livewire:tag-selector name="tags" :tags="$task->tags->all()" :readonly="$role === 'viewer'" />
             <div class="mt-4"></div>
@@ -44,7 +46,7 @@
             </div>
             <div class="flex justify-end mt-4">
                 @if($role === 'owner')
-                    <x-primary-button id="share-button" class="ml-1" type="button" onclick="toggleContributorDialog(true)">
+                    <x-primary-button id="share-button" class="ml-1" type="button" onclick="window.dispatchEvent(new CustomEvent('open-dialog'))">
                         <i class="fas fa-share-alt"></i> 
                         <span class="ml-1">Share</span>
                     </x-primary-button>
@@ -115,4 +117,4 @@
         });
     </script>
     @endscript
-</form>
+</div>
