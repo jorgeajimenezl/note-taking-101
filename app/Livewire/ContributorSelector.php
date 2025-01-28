@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Notifications\SharedTask;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -65,6 +66,8 @@ class ContributorSelector extends Component
             'user_id' => $contributorUser->id,
             'role' => $this->role,
         ]);
+
+        $contributorUser->notify(new SharedTask($this->task));
     }
 
     public function removeContributor(string $email)
