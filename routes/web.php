@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\ContributorController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -32,8 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/tokens', [TokenController::class, 'index'])->name('tokens.index');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('api/contributors', [ContributorController::class, 'update'])->name('contributors.update');
+Route::prefix('oauth')->group(function () {
+    Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('oauth.google.redirect');
+    Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('oauth.google.callback');
 });
 
 Route::passkeys();
