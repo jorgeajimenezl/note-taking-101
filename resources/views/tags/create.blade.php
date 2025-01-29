@@ -25,7 +25,7 @@
                     </div>
                     
                     <div class="mt-6 flex justify-start">
-                        <x-primary-button class="w-full sm:w-auto">
+                        <x-primary-button class="w-full sm:w-auto py-3 px-4 text-base sm:py-1.5 sm:px-3 sm:text-sm">
                             {{ __('Create') }}
                         </x-primary-button>
                     </div>
