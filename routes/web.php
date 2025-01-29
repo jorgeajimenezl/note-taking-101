@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\ApiTokenController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ImportGoogleTasksController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,9 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
 
     // Token-based API authentication
-    Route::post('/tokens', [TokenController::class, 'store'])->name('tokens.store');
-    Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
-    Route::get('/tokens', [TokenController::class, 'index'])->name('tokens.index');
+    Route::post('/tokens', [ApiTokenController::class, 'store'])->name('tokens.store');
+    Route::delete('/tokens/{token}', [ApiTokenController::class, 'destroy'])->name('tokens.destroy');
+    Route::get('/tokens', [ApiTokenController::class, 'index'])->name('tokens.index');
 
     Route::get('/import/google-tasks', [ImportGoogleTasksController::class, 'show'])->name('import.google-tasks');
     Route::post('/import/google-tasks', [ImportGoogleTasksController::class, 'store'])->name('import.google-tasks');

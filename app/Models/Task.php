@@ -60,4 +60,9 @@ class Task extends Model implements HasMedia
 
         return $role;
     }
+
+    public function attachments()
+    {
+        return $this->getMedia('attachments');
+    }
 }
