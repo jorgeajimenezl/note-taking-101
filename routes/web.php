@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\GoogleTasksImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -36,6 +37,8 @@ Route::prefix('oauth')->group(function () {
     Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('oauth.google.redirect');
     Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('oauth.google.callback');
 });
+
+Route::get('/google/tasks/import', GoogleTasksImportController::class)->name('google.tasks.import');
 
 Route::passkeys();
 
