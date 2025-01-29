@@ -19,7 +19,7 @@ class TaskDetails extends Component
     public string $role;
 
     #[Validate('required|string|min:5|max:255', message: [
-        'required' => 'The title is required.',
+        'required' => 'The title cannot be empty.',
         'string' => 'The title must be a string.',
         'min' => 'The title must be at least 5 characters.',
         'max' => 'The title must not exceed 255 characters.',
