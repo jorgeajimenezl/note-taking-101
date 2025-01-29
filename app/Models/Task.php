@@ -19,7 +19,16 @@ class Task extends Model implements HasMedia
         'title',
         'description',
         'completed_at',
+        'due_date',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'completed_at' => 'datetime',
+            'due_date' => 'datetime',
+        ];
+    }
 
     public function author()
     {
@@ -30,11 +39,6 @@ class Task extends Model implements HasMedia
     {
         return $this->belongsToMany(Tag::class, 'tag_task');
     }
-
-    // public function contributors()
-    // {
-    //     return $this->belongsToMany(User::class, 'contributors');
-    // }
 
     public function contributors()
     {
