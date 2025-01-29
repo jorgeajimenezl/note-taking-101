@@ -27,7 +27,7 @@ class TaskDetails extends Component
     public string $title;
 
     #[Validate('required|string')]
-    public string $description;
+    public ?string $description;
 
     #[Validate('nullable|file|max:10240', message: [
         'file' => 'The attachment must be a valid file.',
