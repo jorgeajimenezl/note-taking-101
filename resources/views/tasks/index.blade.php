@@ -16,9 +16,9 @@
                      class="origin-top-right absolute right-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                     <div class="py-1">
                         <a href="{{ route('import.google-tasks') }}"
-                           class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
-                            <i class="fa-brands fa-google mr-2"></i>
-                            Import
+                           class="inline-flex items-center w-full px-4 py-2 text-xs font-semibold text-gray-700 uppercase tracking-widest hover:bg-gray-100 hover:text-gray-900 transition ease-in-out duration-150">
+                            <i class="fa-brands fa-google text-gray-500 mr-3 text-base"></i>
+                            Import from Google
                         </a>
                     </div>
                 </div>
