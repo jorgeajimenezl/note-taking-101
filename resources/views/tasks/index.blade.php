@@ -11,19 +11,21 @@
                 $alertClass = 'bg-red-100 border border-red-400 text-red-700';
             }
         @endphp
-        <div class="{{ $alertClass }} px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">
-                @if($value == 'tasks-imported')
-                    Tasks imported successfully.
-                @elseif($value == 'error:tasks-fetch-failed')
-                    Failed to fetch tasks from Google Tasks.
-                @elseif($value == 'error:tasks-fetch-expired')
-                    Failed to fetch tasks from Google Tasks. The access token has expired.
-                @elseif($value == 'error:tasks-import-failed')
-                    Failed to import tasks from Google Tasks.
-                @endif
-            </span>
-        </div> 
+        <div class="container mx-auto my-5 max-w-screen-md">
+            <div class="{{ $alertClass }} px-6 py-4 border-l-4 rounded shadow-md mb-4" role="alert">
+                <span class="block sm:inline font-bold">
+                    @if($value == 'tasks-imported')
+                        Tasks imported successfully.
+                    @elseif($value == 'error:tasks-fetch-failed')
+                        Failed to fetch tasks from Google Tasks.
+                    @elseif($value == 'error:tasks-fetch-expired')
+                        Failed to fetch tasks from Google Tasks. The access token has expired.
+                    @elseif($value == 'error:tasks-import-failed')
+                        Failed to import tasks from Google Tasks.
+                    @endif
+                </span>
+            </div> 
+        </div>
     @endsession
     
     <livewire:tasks-list />

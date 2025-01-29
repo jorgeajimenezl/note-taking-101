@@ -66,6 +66,7 @@ class ImportGoogleTasksController extends Controller
                 }
 
                 Task::create([
+                    'author_id' => auth()->id(),
                     'title' => $task->title,
                     'description' => $task->description,
                     'due_date' => $task->due_date,
