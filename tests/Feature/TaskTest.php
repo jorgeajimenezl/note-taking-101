@@ -5,12 +5,16 @@ namespace Tests\Feature;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
 {
+    use RefreshDatabase, WithFaker;
+
     private User $user;
 
     protected function setUp(): void
