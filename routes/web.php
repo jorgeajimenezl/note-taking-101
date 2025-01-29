@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\ContributorController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\ImportGoogleTasksController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -30,10 +31,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tokens', [TokenController::class, 'store'])->name('tokens.store');
     Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
     Route::get('/tokens', [TokenController::class, 'index'])->name('tokens.index');
-});
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('api/contributors', [ContributorController::class, 'update'])->name('contributors.update');
+    Route::get('/import/google-tasks', [ImportGoogleTasksController::class, 'show'])->name('import.google-tasks');
+    Route::post('/import/google-tasks', [ImportGoogleTasksController::class, 'store'])->name('import.google-tasks');
+
+    Route::prefix('oauth')->group(function () {
+        Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('oauth.google');
+        Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('oauth.google.callback');
+    });
 });
 
 Route::passkeys();
