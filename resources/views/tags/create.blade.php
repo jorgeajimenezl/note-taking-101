@@ -5,9 +5,9 @@
             @csrf
             <div class="bg-white shadow sm:rounded-lg">
                 <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Create a New Tag</h3>
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Create a Tag</h3>
                     <div class="mt-2 max-w-xl text-sm text-gray-500">
-                        <p>Enter the name of the new tag below.</p>
+                        <p>Ready to unleash your creativity? Give your new tag a name that will make it unforgettable!</p>
                     </div>
                     <div class="mt-5">
                         <x-input-label for="name" :value="__('Name')" />
