@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\GoogleAuthController;
-use App\Http\Controllers\GoogleTasksImportController;
+use App\Http\Controllers\ImportGoogleTasksController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -31,14 +31,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tokens', [TokenController::class, 'store'])->name('tokens.store');
     Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
     Route::get('/tokens', [TokenController::class, 'index'])->name('tokens.index');
-});
 
-Route::prefix('oauth')->group(function () {
-    Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('oauth.google.redirect');
-    Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('oauth.google.callback');
-});
+    Route::get('/import/google-tasks', [ImportGoogleTasksController::class, 'show'])->name('import.google-tasks');
+    Route::post('/import/google-tasks', [ImportGoogleTasksController::class, 'store'])->name('import.google-tasks');
 
-Route::get('/google/tasks/import', GoogleTasksImportController::class)->name('google.tasks.import');
+    Route::prefix('oauth')->group(function () {
+        Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('oauth.google');
+        Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('oauth.google.callback');
+    });
+});
 
 Route::passkeys();
 
