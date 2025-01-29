@@ -29,7 +29,7 @@ class GoogleAuthController extends Controller
                 ->with('error', 'Google authentication failed.');
         }
 
-        request()->session()->put('google_token', $user->token);
+        request()->session()->put('google.access_token', $user->token);
 
         return redirect()
             ->intended(route('dashboard', absolute: false))
