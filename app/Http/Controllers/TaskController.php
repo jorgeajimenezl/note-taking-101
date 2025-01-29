@@ -20,8 +20,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'description' => ['string'],
             'title' => ['required', 'string', 'min:5', 'max:255'],
+            'description' => ['nullable', 'string'],
             'tags' => ['array'],
             'attachments' => ['array', 'max:5'], // max 5 files
             'attachments.*' => ['bail', 'file', 'max:10240'], // 10MB

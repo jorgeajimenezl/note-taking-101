@@ -26,7 +26,7 @@ class TaskDetails extends Component
     ])]
     public string $title;
 
-    #[Validate('required|string')]
+    #[Validate('nullable|string')]
     public ?string $description;
 
     #[Validate('nullable|file|max:10240', message: [
