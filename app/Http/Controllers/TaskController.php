@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class TaskController extends Controller
 
     public function create()
     {
-        return view('tasks.create');
+        $allTags = Tag::where('user_id', auth()->id())->get();
+
+        return view('tasks.create', compact('allTags'));
     }
 
     public function store(Request $request)
