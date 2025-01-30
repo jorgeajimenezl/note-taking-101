@@ -8,7 +8,7 @@ class ErrorResponse extends JsonResponse
 {
     public function __construct(string|array $messages, int $status = 400)
     {
-        parent::__construct(['error' => $messages], $status);
+        parent::__construct(['message' => $messages], $status);
     }
 
     public static function notFound(): self
