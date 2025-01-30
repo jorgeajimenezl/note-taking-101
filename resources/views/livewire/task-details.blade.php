@@ -125,7 +125,7 @@
                     <div class="relative w-5 h-5 mr-2">
                         <svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="18" cy="18" r="14" fill="none" class="stroke-current text-gray-200 dark:text-neutral-700" stroke-width="7"></circle>
-                            <circle id="progress-circle" cx="18" cy="18" r="14" fill="none" class="stroke-current text-blue-600 dark:text-blue-500" stroke-width="7" stroke-dasharray="100" stroke-dashoffset="60" stroke-linecap="round"></circle>
+                            <circle id="progress-circle" cx="18" cy="18" r="14" fill="none" class="stroke-current text-blue-600 dark:text-blue-500" stroke-width="7" stroke-dasharray="100" stroke-dashoffset="100" stroke-linecap="round"></circle>
                         </svg>
                     </div>
                 `;
