@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ErrorResponse;
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
@@ -22,19 +23,29 @@ class TaskController extends Controller
 
     public function show(string $id)
     {
-        $task = Task::with('author', 'contributors', 'tags')->findOrFail($id);
+        $task = Task::with('author', 'contributors', 'tags')->find($id);
+
+        if ($task === null) {
+            return ErrorResponse::notFound();
+        }
 
         if ($task->getUserRole(auth()->user()) === null) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return ErrorResponse::unauthorized();
         }
 
         return new TaskResource($task);
     }
 
-    public function destroy(Task $task)
+    public function destroy(string $id)
     {
+        $task = Task::find($id);
+
+        if ($task === null) {
+            return ErrorResponse::notFound();
+        }
+
         if ($task->author_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return ErrorResponse::unauthorized();
         }
 
         $task->delete();

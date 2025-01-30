@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ErrorResponse;
 use App\Http\Resources\TagResource;
 
 class TagController extends Controller
@@ -23,9 +24,13 @@ class TagController extends Controller
         return response()->json(new TagResource($tag), 201);
     }
 
-    public function destroy($tag)
+    public function destroy(int $tag)
     {
-        $tag = auth()->user()->tags()->findOrFail($tag);
+        $tag = auth()->user()->tags()->find($tag);
+
+        if ($tag === null) {
+            return ErrorResponse::notFound();
+        }
 
         $tag->delete();
 
